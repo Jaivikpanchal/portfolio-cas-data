@@ -19,7 +19,7 @@ from pathlib import Path
 FUND_CONFIG = [
     {
         "match": "kotak arbitrage",
-        "code":  "120503",
+        "code":  "119771",
         "isin":  "INF174K01LC6",
         "short": "KA",
         "color": "#3d8bff",
@@ -27,7 +27,7 @@ FUND_CONFIG = [
     },
     {
         "match": "icici prudential multi",
-        "code":  "120586",
+        "code":  "120334",
         "isin":  "INF109K015K4",
         "short": "MA",
         "color": "#fbbf24",
@@ -35,7 +35,7 @@ FUND_CONFIG = [
     },
     {
         "match": "icici prudential equity savings",
-        "code":  "120378",
+        "code":  "133054",
         "isin":  "INF109KA11J9",
         "short": "ES",
         "color": "#34d399",
