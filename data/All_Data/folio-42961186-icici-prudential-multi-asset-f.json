@@ -1,0 +1,14 @@
+{
+  "folio": "42961186",
+  "fundHouse": "ICICI",
+  "fundName": "ICICI Prudential Multi-Asset Fund - Direct Plan - Growth",
+  "lastUpdated": "2026-02-19T15:13:41.992Z",
+  "holding": {
+    "investedAmount": 25000,
+    "currentValue": 24998.6101959,
+    "units": 27.511,
+    "navPerUnit": 908.6769,
+    "transactionDate": "06-Feb-2026",
+    "processedDate": "2026-02-19"
+  }
+}
