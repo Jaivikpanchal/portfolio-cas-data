@@ -1,0 +1,14 @@
+{
+  "folio": "42961186",
+  "fundHouse": "ICICI",
+  "fundName": "ICICI Prudential Equity Savings Fund Direct Plan Cumulative Amount(Rs.) 10",
+  "lastUpdated": "2026-02-19T15:48:22.084Z",
+  "holding": {
+    "investedAmount": 10000,
+    "currentValue": 9999.51003,
+    "units": 399.501,
+    "navPerUnit": 25.03,
+    "transactionDate": "06-Feb-2026",
+    "processedDate": "2026-02-19"
+  }
+}
