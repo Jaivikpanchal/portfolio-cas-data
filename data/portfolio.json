@@ -1,69 +1,15 @@
 {
-  "generatedAt": "2026-02-19T23:37:34.089160",
+  "generatedAt": "2026-02-20T01:46:03.083275",
   "summary": {
     "totalInvested": 214994.5,
     "totalValue": 215540.04,
     "totalGain": 545.54,
     "gainPct": 0.25,
     "xirr": null,
-    "fundCount": 4,
+    "fundCount": 3,
     "txnCount": 6
   },
   "holdings": [
-    {
-      "fundName": "ICICI Prudential Multi-Asset Fund - Direct Plan - Growth",
-      "fundHouse": "ICICI",
-      "folio": "42961186",
-      "code": "120334",
-      "isin": "INF109K015K4",
-      "short": "MA",
-      "color": "#fbbf24",
-      "units": 54.986000000000004,
-      "invested": 50000.0,
-      "liveNAV": 911.6643,
-      "liveValue": 50128.77,
-      "navDate": "18-02-2026",
-      "portfolioPct": 23.3,
-      "gain": 128.77,
-      "gainPct": 0.26,
-      "avgNAV": 909.3224
-    },
-    {
-      "fundName": "ICICI Prudential Equity Savings Fund Direct Plan Cumulative Amount(Rs.) 10",
-      "fundHouse": "ICICI",
-      "folio": "42961186",
-      "code": "133054",
-      "isin": "INF109KA11J9",
-      "short": "ES",
-      "color": "#34d399",
-      "units": 399.501,
-      "invested": 10000.0,
-      "liveNAV": 24.93,
-      "liveValue": 9959.56,
-      "navDate": "19-02-2026",
-      "portfolioPct": 4.7,
-      "gain": -40.44,
-      "gainPct": -0.4,
-      "avgNAV": 25.0312
-    },
-    {
-      "fundName": "ICICI Prudential Equity Savings Fund Direct Plan Cumulative Amount(Rs.) 45",
-      "fundHouse": "ICICI",
-      "folio": "42373690",
-      "code": "133054",
-      "isin": "INF109KA11J9",
-      "short": "ES",
-      "color": "#34d399",
-      "units": 1793.454,
-      "invested": 45000.0,
-      "liveNAV": 24.93,
-      "liveValue": 44710.81,
-      "navDate": "19-02-2026",
-      "portfolioPct": 20.9,
-      "gain": -289.19,
-      "gainPct": -0.64,
-      "avgNAV": 25.0912
-    },
     {
       "fundName": "Kotak Arbitrage Fund - Direct Plan - Growth",
       "fundHouse": "Kotak",
@@ -81,51 +27,47 @@
       "gain": 746.4,
       "gainPct": 0.68,
       "avgNAV": 41.4519
+    },
+    {
+      "fundName": "ICICI Prudential Multi-Asset Fund - Direct Plan - Growth",
+      "fundHouse": "ICICI",
+      "folio": "42373690",
+      "code": "120334",
+      "isin": "INF109K015K4",
+      "short": "MA",
+      "color": "#fbbf24",
+      "units": 54.986000000000004,
+      "invested": 50000.0,
+      "liveNAV": 911.6643,
+      "liveValue": 50128.77,
+      "navDate": "18-02-2026",
+      "portfolioPct": 23.3,
+      "gain": 128.77,
+      "gainPct": 0.26,
+      "avgNAV": 909.3224
+    },
+    {
+      "fundName": "ICICI Prudential Equity Savings Fund Direct Plan",
+      "fundHouse": "ICICI",
+      "folio": "42373690",
+      "code": "133054",
+      "isin": "INF109KA11J9",
+      "short": "ES",
+      "color": "#34d399",
+      "units": 2192.955,
+      "invested": 55000.0,
+      "liveNAV": 24.93,
+      "liveValue": 54670.37,
+      "navDate": "19-02-2026",
+      "portfolioPct": 25.6,
+      "gain": -329.63,
+      "gainPct": -0.6,
+      "avgNAV": 25.0803
     }
   ],
   "transactions": [
     {
-      "date": "2026-02-19",
-      "folio": "42961186",
-      "fundHouse": "ICICI",
-      "fundName": "ICICI Prudential Multi-Asset Fund - Direct Plan - Growth",
-      "invested": 25000.0,
-      "units": 27.511,
-      "historicalNAV": 908.6769,
-      "historicalValue": 24998.61
-    },
-    {
-      "date": "2026-02-19",
-      "folio": "42961186",
-      "fundHouse": "ICICI",
-      "fundName": "ICICI Prudential Equity Savings Fund Direct Plan Cumulative Amount(Rs.) 10",
-      "invested": 10000.0,
-      "units": 399.501,
-      "historicalNAV": 25.03,
-      "historicalValue": 9999.51
-    },
-    {
-      "date": "2026-02-19",
-      "folio": "42373690",
-      "fundHouse": "ICICI",
-      "fundName": "ICICI Prudential Multi-Asset Fund - Direct Plan - Growth",
-      "invested": 25000.0,
-      "units": 27.475,
-      "historicalNAV": 909.873,
-      "historicalValue": 24998.76
-    },
-    {
-      "date": "2026-02-19",
-      "folio": "42373690",
-      "fundHouse": "ICICI",
-      "fundName": "ICICI Prudential Equity Savings Fund Direct Plan Cumulative Amount(Rs.) 45",
-      "invested": 45000.0,
-      "units": 1793.454,
-      "historicalNAV": 25.09,
-      "historicalValue": 44997.76
-    },
-    {
-      "date": "2026-02-19",
+      "date": "2026-02-20",
       "folio": "18499837",
       "fundHouse": "Kotak",
       "fundName": "Kotak Arbitrage Fund - Direct Plan - Growth",
@@ -135,7 +77,27 @@
       "historicalValue": 34998.25
     },
     {
-      "date": "2026-02-19",
+      "date": "2026-02-20",
+      "folio": "42373690",
+      "fundHouse": "ICICI",
+      "fundName": "ICICI Prudential Multi-Asset Fund - Direct Plan - Growth",
+      "invested": 25000.0,
+      "units": 27.475,
+      "historicalNAV": 909.873,
+      "historicalValue": 24998.76
+    },
+    {
+      "date": "2026-02-20",
+      "folio": "42373690",
+      "fundHouse": "ICICI",
+      "fundName": "ICICI Prudential Equity Savings Fund Direct Plan",
+      "invested": 45000.0,
+      "units": 1793.454,
+      "historicalNAV": 25.09,
+      "historicalValue": 44997.76
+    },
+    {
+      "date": "2026-02-20",
       "folio": "18239116",
       "fundHouse": "Kotak",
       "fundName": "Kotak Arbitrage Fund - Direct Plan - Growth",
@@ -143,6 +105,26 @@
       "units": 1813.0101,
       "historicalNAV": 41.3656,
       "historicalValue": 74996.25
+    },
+    {
+      "date": "2026-02-20",
+      "folio": "42961186",
+      "fundHouse": "ICICI",
+      "fundName": "ICICI Prudential Multi-Asset Fund - Direct Plan - Growth",
+      "invested": 25000.0,
+      "units": 27.511,
+      "historicalNAV": 908.6769,
+      "historicalValue": 24998.61
+    },
+    {
+      "date": "2026-02-20",
+      "folio": "42961186",
+      "fundHouse": "ICICI",
+      "fundName": "ICICI Prudential Equity Savings Fund Direct Plan",
+      "invested": 10000.0,
+      "units": 399.501,
+      "historicalNAV": 25.03,
+      "historicalValue": 9999.51
     }
   ]
 }
