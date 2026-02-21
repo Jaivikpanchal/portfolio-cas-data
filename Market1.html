@@ -24,7 +24,6 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   #loader p{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--muted)}
 
-  /* ── Ticker Tape (marquee-style) ── */
   .tape-wrap{width:100%;background:var(--surface);border-bottom:1px solid var(--border);
     overflow:hidden;padding:10px 0;position:relative}
   .tape-wrap::before,.tape-wrap::after{content:'';position:absolute;top:0;width:80px;height:100%;z-index:2;pointer-events:none}
@@ -41,15 +40,13 @@
   .ti-chg.dn{background:rgba(255,107,107,0.1);color:var(--warn)}
   .ti-chg.flat{background:rgba(107,115,133,0.15);color:var(--muted)}
 
-  /* ── Market Grid Cards ── */
   .market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:8px}
   .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;
     padding:16px 18px;transition:border-color 0.2s,transform 0.15s;position:relative;overflow:hidden}
   .mcard:hover{border-color:rgba(0,229,160,0.25);transform:translateY(-2px)}
   .mcard .mc-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px}
   .mcard .mc-price{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:600;margin-bottom:5px}
-  .mcard .mc-chg{font-family:'DM Mono',monospace;font-size:0.75rem;display:inline-block;
-    padding:3px 9px;border-radius:5px}
+  .mcard .mc-chg{font-family:'DM Mono',monospace;font-size:0.75rem;display:inline-block;padding:3px 9px;border-radius:5px}
   .mcard .mc-chg.up{background:rgba(0,229,160,0.1);color:var(--accent)}
   .mcard .mc-chg.dn{background:rgba(255,107,107,0.1);color:var(--warn)}
   .mcard .mc-chg.flat{color:var(--muted)}
@@ -59,7 +56,6 @@
     display:inline-block;margin-right:4px;animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.2}}
 
-  /* ── Header ── */
   .hdr{margin-bottom:20px;margin-top:8px}
   .hdr-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px}
   .hdr h1{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1.15}
@@ -78,12 +74,10 @@
   .col-green{color:var(--accent)}.col-blue{color:var(--accent2)}.col-gold{color:var(--gold)}
   .col-red{color:var(--warn)}.col-muted{color:var(--muted)}
 
-  /* ── Section Labels ── */
   .sec{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);
     margin:28px 0 14px;display:flex;align-items:center;gap:10px}
   .sec::after{content:'';flex:1;height:1px;background:var(--border)}
 
-  /* ── Collapsible Panels ── */
   .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;
     margin-bottom:10px;overflow:hidden;transition:border-color 0.2s}
   .panel:hover{border-color:rgba(0,229,160,0.2)}
@@ -100,7 +94,6 @@
   .panel-body.open{max-height:4000px}
   .panel-body-inner{padding:4px 20px 20px}
 
-  /* ── KPI Cards ── */
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px}
   .card{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:18px 16px;
     animation:fadeUp 0.5s ease both;transition:border-color 0.2s,transform 0.15s}
@@ -113,7 +106,6 @@
   .card .cs{font-size:0.72rem;color:var(--muted);margin-top:4px}
   .g{color:var(--accent)}.r{color:var(--warn)}.b{color:var(--accent2)}.go{color:var(--gold)}
 
-  /* ── Fund Cards ── */
   .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
   .fund-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;
     padding:22px;transition:border-color 0.2s,transform 0.15s;animation:fadeUp 0.5s ease both;position:relative;overflow:hidden}
@@ -135,7 +127,6 @@
   .fc-bar-fill{height:100%;border-radius:999px}
   .fc-pct{font-size:0.63rem;color:var(--muted);margin-top:5px;font-family:'DM Mono',monospace}
 
-  /* ── Transaction Table ── */
   .txn-wrap{overflow:hidden}
   .txn-wrap table{width:100%;border-collapse:collapse}
   .txn-wrap th{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);
@@ -151,12 +142,25 @@
   .txn-more:hover{background:rgba(61,139,255,0.05)}
 
   /* ── Projection ── */
-  .slider-row{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
-  .slider-row label{font-size:0.78rem;color:var(--muted)}
+  .slider-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+  .slider-row label{font-size:0.78rem;color:var(--muted);min-width:170px}
   input[type=range]{-webkit-appearance:none;width:160px;height:4px;border-radius:2px;background:var(--border);outline:none;cursor:pointer}
   input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
     border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 8px rgba(0,229,160,0.45)}
   #rate-val{font-family:'DM Mono',monospace;color:var(--accent);font-size:0.95rem;min-width:38px}
+
+  /* ── NEW: Editable SIP / Target inputs ── */
+  .proj-inputs{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;
+    background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+  .proj-input-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:140px}
+  .proj-input-group label{font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em}
+  .proj-input-group input[type=number]{background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-family:'DM Mono',monospace;font-size:0.95rem;font-weight:600;
+    padding:8px 10px;border-radius:7px;outline:none;width:100%;transition:border-color 0.2s}
+  .proj-input-group input[type=number]:focus{border-color:var(--accent)}
+  .proj-input-group input[type=number]::-webkit-inner-spin-button{opacity:0.4}
+  .proj-input-note{font-size:0.6rem;color:var(--muted)}
+
   .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
   .pi{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
   .pi.hi{background:linear-gradient(135deg,rgba(0,229,160,0.12),rgba(61,139,255,0.12));border-color:rgba(0,229,160,0.28)}
@@ -168,9 +172,8 @@
   .prog-labels{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--muted);margin-bottom:6px}
   .prog-pct{text-align:center;font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--accent2);margin-top:6px}
 
-  /* ── Market status notice ── */
   .market-status{font-size:0.68rem;color:var(--muted);font-family:'DM Mono',monospace;
-    text-align:right;margin-bottom:10px}
+    text-align:right;margin-bottom:0}
   .market-status .live{color:var(--accent)}
   .market-status .closed{color:var(--gold)}
 
@@ -194,21 +197,12 @@
 </head>
 <body>
 
-<div id="loader">
-  <div class="spinner"></div>
-  <p>Loading portfolio…</p>
-</div>
+<div id="loader"><div class="spinner"></div><p>Loading portfolio…</p></div>
 
-<!-- ── 1. Scrolling Ticker Tape ── -->
-<div class="tape-wrap">
-  <div class="tape-track" id="tape-track">
-    <!-- filled by JS; duplicated for seamless loop -->
-  </div>
-</div>
+<div class="tape-wrap"><div class="tape-track" id="tape-track"></div></div>
 
 <div class="wrap">
 
-  <!-- ── 2. Market Cards ── -->
   <div class="sec" style="margin-top:8px">
     Live Market Prices
     <span id="mkt-status" class="market-status" style="margin-left:auto;margin-bottom:0"></span>
@@ -219,7 +213,6 @@
   </div>
 
   <div class="market-grid" id="market-grid">
-    <!-- skeleton cards -->
     <div class="mcard mcard-skeleton" id="mc-0"><div class="mc-label">NIFTY 50</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
     <div class="mcard mcard-skeleton" id="mc-1"><div class="mc-label">BANK NIFTY</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
     <div class="mcard mcard-skeleton" id="mc-2"><div class="mc-label">NIFTY IT</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
@@ -230,10 +223,6 @@
     <div class="mcard mcard-skeleton" id="mc-7"><div class="mc-label">SILVER (COMEX)</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       PORTFOLIO SECTION — header always visible
-  ══════════════════════════════════════════ -->
-
   <div class="hdr">
     <div class="hdr-top">
       <div>
@@ -242,7 +231,6 @@
       </div>
       <div class="badge-auto"><div class="dot"></div><span id="update-time">Auto-updated</span></div>
     </div>
-    <!-- Always-visible summary bar -->
     <div class="goal-bar">
       <div class="gi"><div class="gl">Total Invested</div><div class="gv col-blue"  id="hdr-inv">—</div></div>
       <div class="gi"><div class="gl">Portfolio Value</div><div class="gv col-green" id="hdr-val">—</div></div>
@@ -252,7 +240,6 @@
     </div>
   </div>
 
-  <!-- ── Panel 1: Overview (KPI Cards) ── -->
   <div class="panel">
     <div class="panel-hdr" onclick="togglePanel(this)" aria-expanded="true">
       <div class="panel-title"><span class="panel-emoji">📊</span> Overview</div>
@@ -274,7 +261,6 @@
     </div>
   </div>
 
-  <!-- ── Panel 2: Holdings ── -->
   <div class="panel">
     <div class="panel-hdr" onclick="togglePanel(this)" aria-expanded="true">
       <div class="panel-title"><span class="panel-emoji">🏦</span> Holdings — Bird's Eye View</div>
@@ -288,7 +274,6 @@
     </div>
   </div>
 
-  <!-- ── Panel 3: Transactions — CLOSED by default ── -->
   <div class="panel">
     <div class="panel-hdr" onclick="togglePanel(this)" aria-expanded="false">
       <div class="panel-title"><span class="panel-emoji">📋</span> Transaction History</div>
@@ -297,14 +282,13 @@
       </div>
       <div class="chevron" style="transform:rotate(180deg)">⌃</div>
     </div>
-    <div class="panel-body"><!-- intentionally no .open -->
+    <div class="panel-body">
       <div class="panel-body-inner">
         <div class="txn-wrap" id="txn-table"></div>
       </div>
     </div>
   </div>
 
-  <!-- ── Panel 4: Wealth Projection ── -->
   <div class="panel">
     <div class="panel-hdr" onclick="togglePanel(this)" aria-expanded="true">
       <div class="panel-title"><span class="panel-emoji">🎯</span> Wealth Projection</div>
@@ -316,6 +300,21 @@
     </div>
     <div class="panel-body open">
       <div class="panel-body-inner">
+
+        <!-- ── NEW: Editable SIP & Target ── -->
+        <div class="proj-inputs">
+          <div class="proj-input-group">
+            <label>Monthly SIP (₹)</label>
+            <input type="number" id="input-sip" value="10000" min="500" step="500" oninput="calcProj()">
+            <div class="proj-input-note">Your monthly SIP amount</div>
+          </div>
+          <div class="proj-input-group">
+            <label>Target Corpus (₹)</label>
+            <input type="number" id="input-goal" value="2000000" min="100000" step="100000" oninput="calcProj()">
+            <div class="proj-input-note">Your wealth goal</div>
+          </div>
+        </div>
+
         <div class="slider-row">
           <label>Expected Annual Return:</label>
           <input type="range" id="rate" min="6" max="18" value="10" step="0.5" oninput="calcProj()">
@@ -334,15 +333,10 @@
     </div>
   </div>
 
-</div><!-- /wrap -->
+</div>
 
 <script>
-// ═══════════════════════════════════════════════
-//  CONFIG  — unchanged from your original
-// ═══════════════════════════════════════════════
 const DATA_URL    = './data/portfolio.json';
-const GOAL        = 2000000;
-const SIP         = 10000;
 const TARGET_DATE = new Date(2027, 11, 6);
 
 const MARKET_SYMBOLS = [
@@ -356,9 +350,16 @@ const MARKET_SYMBOLS = [
   { symbol: 'SI=F',                label: 'SILVER (COMEX)',   currency: '$', decimals: 3 },
 ];
 
-// ═══════════════════════════════════════════════
-//  PANEL TOGGLE  — from collapsible design (Doc 4)
-// ═══════════════════════════════════════════════
+// ── FIX: Multiple proxies tried in order — corsproxy.io removed ──
+const PROXIES = [
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://thingproxy.freeboard.io/fetch/${url}`,
+];
+const YAHOO_BASE = 'https://query1.finance.yahoo.com/v8/finance/chart/';
+
+let marketData = {};
+
 function togglePanel(hdr) {
   const body    = hdr.nextElementSibling;
   const chevron = hdr.querySelector('.chevron');
@@ -368,61 +369,44 @@ function togglePanel(hdr) {
   hdr.setAttribute('aria-expanded', String(!isOpen));
 }
 
-// ═══════════════════════════════════════════════
-//  MARKET DATA — exact copy from Doc 3
-// ═══════════════════════════════════════════════
-const YAHOO_BASE = 'https://query1.finance.yahoo.com/v8/finance/chart/';
-const CORS_PROXY = 'https://corsproxy.io/?url=';
-
-let marketData = {};
-
 async function fetchOneTicker(sym) {
-  try {
-    const url = CORS_PROXY + encodeURIComponent(YAHOO_BASE + encodeURIComponent(sym) + '?interval=1d&range=2d');
-    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    const meta = json?.chart?.result?.[0]?.meta;
-    if (!meta) throw new Error('No meta');
-    const price      = meta.regularMarketPrice ?? null;
-    const prevClose  = meta.chartPreviousClose ?? meta.previousClose ?? null;
-    const change     = (price && prevClose) ? price - prevClose : null;
-    const changePct  = (price && prevClose) ? ((price - prevClose) / prevClose) * 100 : null;
-    const rawState   = meta.marketState ?? 'UNKNOWN';
-    const stateLabel = { REGULAR: 'Live', PRE: 'Pre-Market', POST: 'After Hours',
-                         POSTPOST: 'After Hours', CLOSED: 'Closed', UNKNOWN: 'Closed' };
-    const state = stateLabel[rawState] || 'Closed';
-    return { price, prevClose, change, changePct, state, rawState };
-  } catch(e) {
-    return null;
+  const rawUrl = YAHOO_BASE + encodeURIComponent(sym) + '?interval=1d&range=2d';
+  for (const proxyFn of PROXIES) {
+    try {
+      const res = await fetch(proxyFn(rawUrl), { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) continue;
+      const json = await res.json();
+      const meta = json?.chart?.result?.[0]?.meta;
+      if (!meta || !meta.regularMarketPrice) continue;
+      const price     = meta.regularMarketPrice;
+      const prevClose = meta.chartPreviousClose ?? meta.previousClose ?? null;
+      const change    = prevClose ? price - prevClose : null;
+      const changePct = prevClose ? ((price - prevClose) / prevClose) * 100 : null;
+      const stateMap  = { REGULAR:'Live', PRE:'Pre-Market', POST:'After Hours', POSTPOST:'After Hours', CLOSED:'Closed', UNKNOWN:'Closed' };
+      const rawState  = meta.marketState ?? 'UNKNOWN';
+      return { price, prevClose, change, changePct, state: stateMap[rawState]||'Closed', rawState };
+    } catch(e) { continue; }
   }
+  return null;
 }
 
 async function fetchMarket() {
   const btn = document.getElementById('refresh-btn');
   btn.classList.add('spinning');
-
   const results = await Promise.all(MARKET_SYMBOLS.map(s => fetchOneTicker(s.symbol)));
-
   results.forEach((data, i) => {
     const cfg  = MARKET_SYMBOLS[i];
     const card = document.getElementById('mc-' + i);
     if (!card) return;
     card.classList.remove('mcard-skeleton');
-
     if (!data || data.price === null) {
-      card.innerHTML = `
-        <div class="mc-label">${cfg.label}</div>
-        <div class="mc-price" style="color:var(--muted)">—</div>
-        <div class="mc-chg flat">unavailable</div>`;
+      card.innerHTML = `<div class="mc-label">${cfg.label}</div><div class="mc-price" style="color:var(--muted)">—</div><div class="mc-chg flat">unavailable</div>`;
       return;
     }
-
     const up   = data.changePct >= 0;
     const cls  = Math.abs(data.changePct) < 0.01 ? 'flat' : (up ? 'up' : 'dn');
     const sign = up ? '+' : '';
     const fmt  = v => v.toLocaleString('en-IN', {minimumFractionDigits: cfg.decimals, maximumFractionDigits: cfg.decimals});
-
     marketData[cfg.symbol] = data;
     card.innerHTML = `
       <div class="mc-label">${cfg.label}</div>
@@ -430,7 +414,6 @@ async function fetchMarket() {
       <div class="mc-chg ${cls}">${sign}${data.change.toFixed(2)} (${sign}${data.changePct.toFixed(2)}%)</div>
       <div class="mc-sub">${data.rawState === 'REGULAR' ? '<span class="pulse-dot"></span>Live' : data.state}</div>`;
   });
-
   updateTape(results);
   updateMarketStatus(results);
   btn.classList.remove('spinning');
@@ -439,17 +422,13 @@ async function fetchMarket() {
 function updateTape(results) {
   const track = document.getElementById('tape-track');
   const items = MARKET_SYMBOLS.map((cfg, i) => {
-    const d   = results[i];
+    const d = results[i];
     if (!d || d.price === null) return `<div class="tape-item"><span class="ti-name">${cfg.label}</span><span class="ti-price" style="color:var(--muted)">—</span></div>`;
     const up  = d.changePct >= 0;
     const cls = Math.abs(d.changePct) < 0.01 ? 'flat' : (up ? 'up' : 'dn');
     const sign = up ? '+' : '';
     const fmt  = v => v.toLocaleString('en-IN', {minimumFractionDigits: cfg.decimals, maximumFractionDigits: cfg.decimals});
-    return `<div class="tape-item">
-      <span class="ti-name">${cfg.label}</span>
-      <span class="ti-price">${cfg.currency}${fmt(d.price)}</span>
-      <span class="ti-chg ${cls}">${sign}${d.changePct.toFixed(2)}%</span>
-    </div>`;
+    return `<div class="tape-item"><span class="ti-name">${cfg.label}</span><span class="ti-price">${cfg.currency}${fmt(d.price)}</span><span class="ti-chg ${cls}">${sign}${d.changePct.toFixed(2)}%</span></div>`;
   }).join('');
   track.innerHTML = items + items;
 }
@@ -458,16 +437,12 @@ function updateMarketStatus(results) {
   const statuses = results.filter(Boolean).map(r => r.rawState);
   const isLive   = statuses.some(s => s === 'REGULAR' || s === 'PRE');
   const el = document.getElementById('mkt-status');
-  const now = new Date();
-  const t = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'}) + ' IST';
+  const t  = new Date().toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'}) + ' IST';
   el.innerHTML = isLive
     ? `<span class="live"><span class="pulse-dot"></span>Market Open</span> · ${t}`
     : `<span class="closed">Market Closed</span> · ${t}`;
 }
 
-// ═══════════════════════════════════════════════
-//  PORTFOLIO — exact copy from Doc 3, nothing changed
-// ═══════════════════════════════════════════════
 const inr  = v => '₹' + Math.round(v).toLocaleString('en-IN');
 const inrL = v => v >= 1e5 ? '₹' + (v/1e5).toFixed(2)+'L' : inr(v);
 const mo   = (a,b) => (b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMonth());
@@ -475,7 +450,6 @@ const mo   = (a,b) => (b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMo
 window.addEventListener('DOMContentLoaded', async () => {
   fetchMarket();
   setInterval(fetchMarket, 60_000);
-
   try {
     const res = await fetch(DATA_URL + '?t=' + Date.now());
     if (!res.ok) throw new Error(`HTTP ${res.status} — portfolio.json not found`);
@@ -484,40 +458,26 @@ window.addEventListener('DOMContentLoaded', async () => {
   } catch (err) {
     document.getElementById('loader').classList.add('hide');
     document.querySelector('.wrap').insertAdjacentHTML('afterbegin',
-      `<div class="err-box">⚠ Could not load portfolio data.<br><br>
-        Make sure <code>data/portfolio.json</code> exists in your repo.<br><br>
-        <small>${err.message}</small></div>`
-    );
+      `<div class="err-box">⚠ Could not load portfolio data.<br><br>Make sure <code>data/portfolio.json</code> exists in your repo.<br><br><small>${err.message}</small></div>`);
   }
 });
 
 let _liveCorpus = 0;
 
 function render(data) {
-  const s = data.summary;
-  const funds = data.holdings || [];
-  const txns  = data.transactions || [];
-
+  const s = data.summary, funds = data.holdings||[], txns = data.transactions||[];
   const d = new Date(data.generatedAt);
   document.getElementById('update-time').textContent =
-    'Updated ' + d.toLocaleDateString('en-IN', {day:'numeric',month:'short'}) +
-    ' · ' + d.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
-
-  // Always-visible goal bar
+    'Updated ' + d.toLocaleDateString('en-IN',{day:'numeric',month:'short'}) + ' · ' + d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
   document.getElementById('hdr-inv').textContent  = inr(s.totalInvested);
   document.getElementById('hdr-val').textContent  = inr(s.totalValue);
   const g = s.totalGain;
   document.getElementById('hdr-gain').textContent = (g>=0?'+':'−') + inr(Math.abs(g));
   document.getElementById('hdr-gain').className   = 'gv ' + (g>=0?'col-green':'col-red');
   document.getElementById('hdr-xirr').textContent = s.xirr ? s.xirr + '% p.a.' : '—';
-  const navDate = funds.find(f=>f.navDate)?.navDate || '—';
-  document.getElementById('hdr-navdate').textContent = navDate;
-
-  // Panel 1 meta
+  document.getElementById('hdr-navdate').textContent = funds.find(f=>f.navDate)?.navDate || '—';
   document.getElementById('pm-funds').textContent = s.fundCount;
   document.getElementById('pm-txns').textContent  = s.txnCount;
-
-  // KPI cards
   document.getElementById('kpi-inv').textContent   = inr(s.totalInvested);
   document.getElementById('kpi-funds').textContent  = s.fundCount + ' fund' + (s.fundCount!==1?'s':'');
   document.getElementById('kpi-val').textContent    = inr(s.totalValue);
@@ -527,10 +487,7 @@ function render(data) {
   document.getElementById('kpi-pct').className      = 'cs ' + (s.gainPct>=0?'g':'r');
   document.getElementById('kpi-count').textContent  = s.txnCount;
   document.getElementById('kpi-funds2').textContent = s.fundCount + ' unique funds';
-
-  // Panel 3 meta
   document.getElementById('pm-txn-count').textContent = s.txnCount + ' txns';
-
   renderFundGrid(funds);
   renderTxnTable(txns);
   _liveCorpus = s.totalValue;
@@ -541,43 +498,33 @@ function render(data) {
 function renderFundGrid(funds) {
   const grid = document.getElementById('fund-grid');
   grid.innerHTML = '';
-
-  // Panel 2 meta: best / worst
   if (funds.length) {
-    const sorted = [...funds].sort((a,b) => b.gainPct - a.gainPct);
-    const best = sorted[0], worst = sorted[sorted.length-1];
-    document.getElementById('pm-holdings').innerHTML = `
-      <div class="pm-item"><div class="pm-l">Best</div><div class="pm-v g">${best.short||'—'} +${best.gainPct}%</div></div>
-      <div class="pm-item"><div class="pm-l">Worst</div><div class="pm-v r">${worst.short||'—'} ${worst.gainPct>=0?'+':''}${worst.gainPct}%</div></div>`;
+    const sorted = [...funds].sort((a,b)=>b.gainPct-a.gainPct);
+    const best=sorted[0], worst=sorted[sorted.length-1];
+    document.getElementById('pm-holdings').innerHTML =
+      `<div class="pm-item"><div class="pm-l">Best</div><div class="pm-v g">${best.short||'—'} +${best.gainPct}%</div></div>
+       <div class="pm-item"><div class="pm-l">Worst</div><div class="pm-v r">${worst.short||'—'} ${worst.gainPct>=0?'+':''}${worst.gainPct}%</div></div>`;
   }
-
-  funds.forEach((f, i) => {
-    const color   = f.color || '#6b7385';
-    const gainCls = f.gain >= 0 ? 'g' : 'r';
-    const navStr  = f.liveNAV
-      ? `<span class="nav-pill ok">NAV ₹${f.liveNAV.toFixed(4)} · ${f.navDate||''}</span>`
-      : `<span class="nav-pill no">NAV unavailable</span>`;
-    const card = document.createElement('div');
-    card.className = 'fund-card';
-    card.style.cssText = `animation-delay:${i*0.1}s; border-color:${color}33`;
-    card.innerHTML = `
+  funds.forEach((f,i)=>{
+    const color=f.color||'#6b7385', gainCls=f.gain>=0?'g':'r';
+    const navStr=f.liveNAV
+      ?`<span class="nav-pill ok">NAV ₹${f.liveNAV.toFixed(4)} · ${f.navDate||''}</span>`
+      :`<span class="nav-pill no">NAV unavailable</span>`;
+    const card=document.createElement('div');
+    card.className='fund-card';
+    card.style.cssText=`animation-delay:${i*0.1}s;border-color:${color}33`;
+    card.innerHTML=`
       <div class="fc-head">
         <div class="ficon" style="background:linear-gradient(135deg,${color}cc,${color})">${f.short||'MF'}</div>
-        <div class="fc-title">
-          <div class="fname">${f.fundName}</div>
-          <div class="fhouse">${f.fundHouse}</div>
-          ${navStr}
-        </div>
+        <div class="fc-title"><div class="fname">${f.fundName}</div><div class="fhouse">${f.fundHouse}</div>${navStr}</div>
       </div>
       <div class="fc-stats">
         <div class="fc-stat"><div class="sl">Invested</div><div class="sv b">${inr(f.invested)}</div></div>
         <div class="fc-stat"><div class="sl">Live Value</div><div class="sv g">${inr(f.liveValue)}</div></div>
         <div class="fc-stat"><div class="sl">Units</div><div class="sv">${f.units.toFixed(4)}</div></div>
         <div class="fc-stat"><div class="sl">Avg NAV</div><div class="sv">₹${f.avgNAV.toFixed(4)}</div></div>
-        <div class="fc-stat full">
-          <div class="sl">Gain / Loss</div>
-          <div class="sv ${gainCls}">${f.gain>=0?'+':'−'}${inr(Math.abs(f.gain))} &nbsp;(${f.gainPct}%)</div>
-        </div>
+        <div class="fc-stat full"><div class="sl">Gain / Loss</div>
+          <div class="sv ${gainCls}">${f.gain>=0?'+':'−'}${inr(Math.abs(f.gain))} &nbsp;(${f.gainPct}%)</div></div>
       </div>
       <div class="fc-bar"><div class="fc-bar-fill" style="width:${f.portfolioPct}%;background:${color}"></div></div>
       <div class="fc-pct">${f.portfolioPct}% of portfolio · ${allTransactionsForFund(f.fundName)} transactions</div>`;
@@ -585,72 +532,61 @@ function renderFundGrid(funds) {
   });
 }
 
-let _txns = [];
-function allTransactionsForFund(name) {
-  return _txns.filter(t => t.fundName === name).length;
-}
+let _txns=[];
+function allTransactionsForFund(name){return _txns.filter(t=>t.fundName===name).length}
 
-function renderTxnTable(txns) {
-  _txns = txns;
-  const wrap = document.getElementById('txn-table');
-  const PAGE = 15;
-  let showing = PAGE;
-  function buildTable() {
-    const slice = txns.slice(0, showing);
-    const rows = slice.map(t => {
-      const color = getFundColor(t.fundName);
+function renderTxnTable(txns){
+  _txns=txns;
+  const wrap=document.getElementById('txn-table'),PAGE=15;
+  let showing=PAGE;
+  function buildTable(){
+    const rows=txns.slice(0,showing).map(t=>{
+      const color=getFundColor(t.fundName);
       return `<tr>
-        <td><span class="fund-dot" style="background:${color}"></span>
-          <span class="txn-name">${t.fundName.length>44?t.fundName.slice(0,44)+'…':t.fundName}</span>
-          <div class="txn-sub">Folio ${t.folio}</div></td>
+        <td><span class="fund-dot" style="background:${color}"></span><span class="txn-name">${t.fundName.length>44?t.fundName.slice(0,44)+'…':t.fundName}</span><div class="txn-sub">Folio ${t.folio}</div></td>
         <td style="color:var(--muted)">${t.date}</td>
         <td class="b">${inr(t.invested)}</td>
         <td>${t.units.toFixed(4)}</td>
         <td>₹${t.historicalNAV.toFixed(4)}</td>
-        <td>${inr(t.historicalValue)}</td>
-      </tr>`;
+        <td>${inr(t.historicalValue)}</td></tr>`;
     }).join('');
-    const moreRow = showing < txns.length
-      ? `<tr><td colspan="6" class="txn-more" id="show-more">↓ Show more (${txns.length-showing} remaining)</td></tr>` : '';
-    wrap.innerHTML = `<table>
-      <thead><tr><th>Fund</th><th>Date</th><th>Invested</th><th>Units</th><th>NAV at Buy</th><th>Value at Buy</th></tr></thead>
-      <tbody>${rows}${moreRow}</tbody></table>`;
-    const btn = document.getElementById('show-more');
-    if (btn) btn.addEventListener('click', () => { showing = Math.min(showing+PAGE, txns.length); buildTable(); });
+    const more=showing<txns.length?`<tr><td colspan="6" class="txn-more" id="show-more">↓ Show more (${txns.length-showing} remaining)</td></tr>`:'';
+    wrap.innerHTML=`<table><thead><tr><th>Fund</th><th>Date</th><th>Invested</th><th>Units</th><th>NAV at Buy</th><th>Value at Buy</th></tr></thead><tbody>${rows}${more}</tbody></table>`;
+    const btn=document.getElementById('show-more');
+    if(btn) btn.addEventListener('click',()=>{showing=Math.min(showing+PAGE,txns.length);buildTable();});
   }
   buildTable();
 }
 
-function getFundColor(name) {
-  const n = name.toLowerCase();
-  if (n.includes('kotak')) return '#3d8bff';
-  if (n.includes('multi')) return '#fbbf24';
-  if (n.includes('equity') || n.includes('saving')) return '#34d399';
+function getFundColor(name){
+  const n=name.toLowerCase();
+  if(n.includes('kotak')) return '#3d8bff';
+  if(n.includes('multi')) return '#fbbf24';
+  if(n.includes('equity')||n.includes('saving')) return '#34d399';
   return '#6b7385';
 }
 
-function calcProj() {
+function calcProj(){
   const rate = parseFloat(document.getElementById('rate').value);
+  // ── NEW: read live SIP and Goal from inputs ──
+  const SIP  = parseFloat(document.getElementById('input-sip').value)  || 10000;
+  const GOAL = parseFloat(document.getElementById('input-goal').value) || 2000000;
   document.getElementById('rate-val').textContent = rate + '%';
-  const r = rate / 100 / 12;
-  const months = mo(new Date(), TARGET_DATE);
-  const c = _liveCorpus || 0;
-  const fvC = c * Math.pow(1+r, months);
-  const fvS = SIP * ((Math.pow(1+r, months) - 1) / r) * (1+r);
-  const tot = fvC + fvS;
-  const grow = tot - c - SIP * months;
-  const pct = Math.min((tot / GOAL) * 100, 100);
+  const r=rate/100/12, months=mo(new Date(),TARGET_DATE), c=_liveCorpus||0;
+  const fvC=c*Math.pow(1+r,months);
+  const fvS=SIP*((Math.pow(1+r,months)-1)/r)*(1+r);
+  const tot=fvC+fvS, grow=tot-c-SIP*months;
+  const pct=Math.min((tot/GOAL)*100,100);
   document.getElementById('p-corpus').textContent = inrL(c);
-  document.getElementById('p-sip').textContent    = inrL(SIP) + '/mo';
+  document.getElementById('p-sip').textContent    = inrL(SIP)+'/mo';
   document.getElementById('p-growth').textContent = inrL(grow);
   document.getElementById('p-total').textContent  = inrL(tot);
-  document.getElementById('prog-l').textContent   = 'Now: ' + inrL(c);
-  document.getElementById('prog-r').textContent   = 'Target: ' + inrL(GOAL);
-  document.getElementById('prog').style.width     = pct + '%';
-  document.getElementById('prog-pct').textContent = pct.toFixed(1) + '% of ' + inrL(GOAL);
-  // Panel 4 meta
+  document.getElementById('prog-l').textContent   = 'Now: '+inrL(c);
+  document.getElementById('prog-r').textContent   = 'Target: '+inrL(GOAL);
+  document.getElementById('prog').style.width     = pct+'%';
+  document.getElementById('prog-pct').textContent = pct.toFixed(1)+'% of '+inrL(GOAL);
   document.getElementById('pm-target').textContent   = inrL(GOAL);
-  document.getElementById('pm-progress').textContent = pct.toFixed(1) + '%';
+  document.getElementById('pm-progress').textContent = pct.toFixed(1)+'%';
 }
 </script>
 </body>
