@@ -24,8 +24,15 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   #loader p{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--muted)}
 
+  /* ── TradingView widget containers ── */
+  .tv-ticker{width:100%;background:var(--surface);border-bottom:1px solid var(--border)}
+  .tv-section{margin-bottom:0}
+  .tv-quotes-wrap{border-radius:14px;overflow:hidden;border:1px solid var(--border);margin-bottom:8px}
+  .tv-mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:8px}
+  .tv-mini-cell{border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+
   /* ── Header ── */
-  .hdr{margin-bottom:28px}
+  .hdr{margin-bottom:28px;margin-top:20px}
   .hdr-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px}
   .hdr h1{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1.15}
   .hdr h1 span{color:var(--accent)}
@@ -76,7 +83,6 @@
     padding:4px 10px;border-radius:999px;margin-top:7px}
   .nav-pill.ok{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent)}
   .nav-pill.no{background:rgba(255,107,107,0.08);border:1px solid rgba(255,107,107,0.2);color:var(--warn)}
-
   .fc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
   .fc-stat .sl{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
   .fc-stat .sv{font-family:'DM Mono',monospace;font-size:0.93rem;margin-top:3px;font-weight:600}
@@ -86,13 +92,11 @@
   .fc-pct{font-size:0.63rem;color:var(--muted);margin-top:5px;font-family:'DM Mono',monospace}
 
   /* ── Transaction Table ── */
-  .txn-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;
-    overflow:hidden;margin-bottom:12px}
+  .txn-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
   .txn-wrap table{width:100%;border-collapse:collapse}
   .txn-wrap th{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);
     padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2);font-weight:500}
-  .txn-wrap td{font-size:0.8rem;padding:11px 16px;border-bottom:1px solid rgba(37,41,51,0.5);
-    font-family:'DM Mono',monospace}
+  .txn-wrap td{font-size:0.8rem;padding:11px 16px;border-bottom:1px solid rgba(37,41,51,0.5);font-family:'DM Mono',monospace}
   .txn-wrap tr:last-child td{border-bottom:none}
   .txn-wrap tr:hover td{background:rgba(255,255,255,0.013)}
   .fund-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;flex-shrink:0}
@@ -122,11 +126,10 @@
   .prog-labels{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--muted);margin-bottom:6px}
   .prog-pct{text-align:center;font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--accent2);margin-top:6px}
 
-  /* ── Error box ── */
   .err-box{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.25);border-radius:12px;
     padding:20px 24px;color:var(--warn);font-family:'DM Mono',monospace;font-size:0.82rem;text-align:center;margin:40px 0}
 
-  @media(max-width:600px){.hdr h1{font-size:1.5rem}.fund-grid{grid-template-columns:1fr}.txn-wrap{overflow-x:auto}}
+  @media(max-width:600px){.hdr h1{font-size:1.5rem}.fund-grid{grid-template-columns:1fr}.txn-wrap{overflow-x:auto}.tv-mini-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -136,7 +139,140 @@
   <p>Loading portfolio…</p>
 </div>
 
+<!-- ══════════════════════════════════════════
+     TRADINGVIEW WIDGETS — TOP OF PAGE
+══════════════════════════════════════════ -->
+
+<!-- 1. Ticker Tape -->
+<div class="tv-ticker">
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+      "symbols": [
+        {"proName":"NSE:NIFTY","title":"Nifty 50"},
+        {"proName":"NSE:BANKNIFTY","title":"Bank Nifty"},
+        {"proName":"NSE:CNXIT","title":"Nifty IT"},
+        {"proName":"NSE:NIFTYMIDCAP100","title":"Midcap 100"},
+        {"proName":"NSE:NIFTY500","title":"Nifty 500"},
+        {"proName":"NASDAQ:NQ1!","title":"GIFT Nifty"},
+        {"proName":"MCX:GOLD1!","title":"Gold MCX"},
+        {"proName":"MCX:SILVER1!","title":"Silver MCX"}
+      ],
+      "showSymbolLogo": false,
+      "isTransparent": true,
+      "displayMode": "adaptive",
+      "colorTheme": "dark",
+      "locale": "en"
+    }
+    </script>
+  </div>
+</div>
+
 <div class="wrap">
+
+  <!-- 2. Market Quotes Table -->
+  <div class="sec" style="margin-top:8px">Live Market Prices</div>
+  <div class="tv-quotes-wrap">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+      {
+        "width": "100%",
+        "height": "380",
+        "symbolsGroups": [
+          {
+            "name": "Indices",
+            "symbols": [
+              {"name":"NSE:NIFTY","displayName":"Nifty 50"},
+              {"name":"NSE:BANKNIFTY","displayName":"Bank Nifty"},
+              {"name":"NSE:CNXIT","displayName":"Nifty IT"},
+              {"name":"NSE:NIFTYMIDCAP100","displayName":"Nifty Midcap 100"},
+              {"name":"NSE:NIFTY500","displayName":"Nifty 500"},
+              {"name":"BSE:SENSEX","displayName":"Sensex"}
+            ]
+          },
+          {
+            "name": "Commodities & Futures",
+            "symbols": [
+              {"name":"MCX:GOLD1!","displayName":"Gold MCX"},
+              {"name":"MCX:SILVER1!","displayName":"Silver MCX"},
+              {"name":"NASDAQ:NQ1!","displayName":"GIFT Nifty"},
+              {"name":"NYMEX:CL1!","displayName":"Crude Oil"}
+            ]
+          }
+        ],
+        "colorTheme": "dark",
+        "isTransparent": true,
+        "locale": "en"
+      }
+      </script>
+    </div>
+  </div>
+
+  <!-- 3. Mini Charts Grid -->
+  <div class="sec">Index Charts</div>
+  <div class="tv-mini-grid">
+
+    <div class="tv-mini-cell">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        {"symbol":"NSE:NIFTY","width":"100%","height":"200","locale":"en","dateRange":"1D","colorTheme":"dark","isTransparent":true,"chartOnly":false,"noTimeScale":false}
+        </script>
+      </div>
+    </div>
+
+    <div class="tv-mini-cell">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        {"symbol":"NSE:BANKNIFTY","width":"100%","height":"200","locale":"en","dateRange":"1D","colorTheme":"dark","isTransparent":true,"chartOnly":false,"noTimeScale":false}
+        </script>
+      </div>
+    </div>
+
+    <div class="tv-mini-cell">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        {"symbol":"NSE:CNXIT","width":"100%","height":"200","locale":"en","dateRange":"1D","colorTheme":"dark","isTransparent":true,"chartOnly":false,"noTimeScale":false}
+        </script>
+      </div>
+    </div>
+
+    <div class="tv-mini-cell">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        {"symbol":"NSE:NIFTYMIDCAP100","width":"100%","height":"200","locale":"en","dateRange":"1D","colorTheme":"dark","isTransparent":true,"chartOnly":false,"noTimeScale":false}
+        </script>
+      </div>
+    </div>
+
+    <div class="tv-mini-cell">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        {"symbol":"MCX:GOLD1!","width":"100%","height":"200","locale":"en","dateRange":"1D","colorTheme":"dark","isTransparent":true,"chartOnly":false,"noTimeScale":false}
+        </script>
+      </div>
+    </div>
+
+    <div class="tv-mini-cell">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        {"symbol":"MCX:SILVER1!","width":"100%","height":"200","locale":"en","dateRange":"1D","colorTheme":"dark","isTransparent":true,"chartOnly":false,"noTimeScale":false}
+        </script>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PORTFOLIO SECTION
+  ══════════════════════════════════════════ -->
 
   <div class="hdr">
     <div class="hdr-top">
@@ -195,11 +331,10 @@
 
 <script>
 // ── Config ────────────────────────────────────────────────
-// Path to your portfolio.json (relative to this HTML file)
-const DATA_URL  = './data/portfolio.json';
-const GOAL      = 2000000;   // ← your target corpus in ₹
-const SIP       = 70000;     // ← your monthly SIP in ₹
-const TARGET_DATE = new Date(2027, 11, 6);  // Dec 6 2027
+const DATA_URL    = './data/portfolio.json';
+const GOAL        = 2000000;
+const SIP         = 10000;
+const TARGET_DATE = new Date(2027, 11, 6);
 
 // ── Helpers ───────────────────────────────────────────────
 const inr  = v => '₹' + Math.round(v).toLocaleString('en-IN');
@@ -209,7 +344,7 @@ const mo   = (a,b) => (b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMo
 // ── Boot ──────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   try {
-    const res = await fetch(DATA_URL + '?t=' + Date.now()); // bust cache
+    const res = await fetch(DATA_URL + '?t=' + Date.now());
     if (!res.ok) throw new Error(`HTTP ${res.status} — portfolio.json not found`);
     const data = await res.json();
     render(data);
@@ -226,33 +361,28 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// ── Render ────────────────────────────────────────────────
+// ── Render Portfolio ──────────────────────────────────────
 let _liveCorpus = 0;
 
 function render(data) {
-  const s = data.summary;
+  const s     = data.summary;
   const funds = data.holdings || [];
   const txns  = data.transactions || [];
 
-  // Update time badge
   const d = new Date(data.generatedAt);
   document.getElementById('update-time').textContent =
     'Updated ' + d.toLocaleDateString('en-IN', {day:'numeric',month:'short'}) +
     ' · ' + d.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
 
-  // Header bar
   document.getElementById('hdr-inv').textContent  = inr(s.totalInvested);
   document.getElementById('hdr-val').textContent  = inr(s.totalValue);
   const g = s.totalGain;
   document.getElementById('hdr-gain').textContent = (g>=0?'+':'−') + inr(Math.abs(g));
   document.getElementById('hdr-gain').className   = 'gv ' + (g>=0?'col-green':'col-red');
   document.getElementById('hdr-xirr').textContent = s.xirr ? s.xirr + '% p.a.' : '—';
-
-  // NAV date — take from first holding that has one
   const navDate = funds.find(f=>f.navDate)?.navDate || '—';
   document.getElementById('hdr-navdate').textContent = navDate;
 
-  // KPIs
   document.getElementById('kpi-inv').textContent   = inr(s.totalInvested);
   document.getElementById('kpi-funds').textContent  = s.fundCount + ' fund' + (s.fundCount!==1?'s':'');
   document.getElementById('kpi-val').textContent    = inr(s.totalValue);
@@ -263,16 +393,10 @@ function render(data) {
   document.getElementById('kpi-count').textContent  = s.txnCount;
   document.getElementById('kpi-funds2').textContent = s.fundCount + ' unique funds';
 
-  // Fund cards
   renderFundGrid(funds, s.totalInvested);
-
-  // Transaction table (show first 15, then "show more")
   renderTxnTable(txns);
-
-  // Projection
   _liveCorpus = s.totalValue;
   calcProj();
-
   document.getElementById('loader').classList.add('hide');
 }
 
@@ -280,12 +404,11 @@ function renderFundGrid(funds, totalInv) {
   const grid = document.getElementById('fund-grid');
   grid.innerHTML = '';
   funds.forEach((f, i) => {
-    const color  = f.color || '#6b7385';
+    const color   = f.color || '#6b7385';
     const gainCls = f.gain >= 0 ? 'g' : 'r';
     const navStr  = f.liveNAV
       ? `<span class="nav-pill ok">NAV ₹${f.liveNAV.toFixed(4)} · ${f.navDate||''}</span>`
       : `<span class="nav-pill no">NAV unavailable</span>`;
-
     const card = document.createElement('div');
     card.className = 'fund-card';
     card.style.cssText = `animation-delay:${i*0.1}s; border-color:${color}33`;
@@ -299,39 +422,21 @@ function renderFundGrid(funds, totalInv) {
         </div>
       </div>
       <div class="fc-stats">
-        <div class="fc-stat">
-          <div class="sl">Invested</div>
-          <div class="sv b">${inr(f.invested)}</div>
-        </div>
-        <div class="fc-stat">
-          <div class="sl">Live Value</div>
-          <div class="sv g">${inr(f.liveValue)}</div>
-        </div>
-        <div class="fc-stat">
-          <div class="sl">Units</div>
-          <div class="sv">${f.units.toFixed(4)}</div>
-        </div>
-        <div class="fc-stat">
-          <div class="sl">Avg NAV</div>
-          <div class="sv">₹${f.avgNAV.toFixed(4)}</div>
-        </div>
+        <div class="fc-stat"><div class="sl">Invested</div><div class="sv b">${inr(f.invested)}</div></div>
+        <div class="fc-stat"><div class="sl">Live Value</div><div class="sv g">${inr(f.liveValue)}</div></div>
+        <div class="fc-stat"><div class="sl">Units</div><div class="sv">${f.units.toFixed(4)}</div></div>
+        <div class="fc-stat"><div class="sl">Avg NAV</div><div class="sv">₹${f.avgNAV.toFixed(4)}</div></div>
         <div class="fc-stat full">
           <div class="sl">Gain / Loss</div>
-          <div class="sv ${gainCls}">
-            ${f.gain>=0?'+':'−'}${inr(Math.abs(f.gain))} &nbsp;(${f.gainPct}%)
-          </div>
+          <div class="sv ${gainCls}">${f.gain>=0?'+':'−'}${inr(Math.abs(f.gain))} &nbsp;(${f.gainPct}%)</div>
         </div>
       </div>
-      <div class="fc-bar">
-        <div class="fc-bar-fill" style="width:${f.portfolioPct}%;background:${color}"></div>
-      </div>
-      <div class="fc-pct">${f.portfolioPct}% of portfolio · ${allTransactionsForFund(f.fundName)} transactions</div>
-    `;
+      <div class="fc-bar"><div class="fc-bar-fill" style="width:${f.portfolioPct}%;background:${color}"></div></div>
+      <div class="fc-pct">${f.portfolioPct}% of portfolio · ${allTransactionsForFund(f.fundName)} transactions</div>`;
     grid.appendChild(card);
   });
 }
 
-// Count txns for a fund (stored globally after first render)
 let _txns = [];
 function allTransactionsForFund(name) {
   return _txns.filter(t => t.fundName === name).length;
@@ -342,17 +447,14 @@ function renderTxnTable(txns) {
   const wrap = document.getElementById('txn-table');
   const PAGE = 15;
   let showing = PAGE;
-
   function buildTable() {
     const slice = txns.slice(0, showing);
     const rows = slice.map(t => {
       const color = getFundColor(t.fundName);
       return `<tr>
-        <td>
-          <span class="fund-dot" style="background:${color}"></span>
+        <td><span class="fund-dot" style="background:${color}"></span>
           <span class="txn-name">${t.fundName.length>44?t.fundName.slice(0,44)+'…':t.fundName}</span>
-          <div class="txn-sub">Folio ${t.folio}</div>
-        </td>
+          <div class="txn-sub">Folio ${t.folio}</div></td>
         <td style="color:var(--muted)">${t.date}</td>
         <td class="b">${inr(t.invested)}</td>
         <td>${t.units.toFixed(4)}</td>
@@ -360,20 +462,11 @@ function renderTxnTable(txns) {
         <td>${inr(t.historicalValue)}</td>
       </tr>`;
     }).join('');
-
     const moreRow = showing < txns.length
-      ? `<tr><td colspan="6" class="txn-more" id="show-more">
-          ↓ Show more (${txns.length - showing} remaining)
-         </td></tr>`
-      : '';
-
+      ? `<tr><td colspan="6" class="txn-more" id="show-more">↓ Show more (${txns.length-showing} remaining)</td></tr>` : '';
     wrap.innerHTML = `<table>
-      <thead><tr>
-        <th>Fund</th><th>Date</th><th>Invested</th><th>Units</th><th>NAV at Buy</th><th>Value at Buy</th>
-      </tr></thead>
-      <tbody>${rows}${moreRow}</tbody>
-    </table>`;
-
+      <thead><tr><th>Fund</th><th>Date</th><th>Invested</th><th>Units</th><th>NAV at Buy</th><th>Value at Buy</th></tr></thead>
+      <tbody>${rows}${moreRow}</tbody></table>`;
     const btn = document.getElementById('show-more');
     if (btn) btn.addEventListener('click', () => { showing = Math.min(showing+PAGE, txns.length); buildTable(); });
   }
@@ -388,7 +481,6 @@ function getFundColor(name) {
   return '#6b7385';
 }
 
-// ── Projection ────────────────────────────────────────────
 function calcProj() {
   const rate = parseFloat(document.getElementById('rate').value);
   document.getElementById('rate-val').textContent = rate + '%';
@@ -400,7 +492,6 @@ function calcProj() {
   const tot = fvC + fvS;
   const grow = tot - c - SIP * months;
   const pct = Math.min((tot / GOAL) * 100, 100);
-
   document.getElementById('p-corpus').textContent = inrL(c);
   document.getElementById('p-sip').textContent    = inrL(SIP) + '/mo';
   document.getElementById('p-growth').textContent = inrL(grow);
