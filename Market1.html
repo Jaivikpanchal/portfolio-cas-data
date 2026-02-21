@@ -3,637 +3,360 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Portfolio · Live NAV Tracker</title>
+<title>Collapsible Design Preview</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#0d0f14;--surface:#13161e;--surface2:#1a1e28;--border:#252933;
     --accent:#00e5a0;--accent2:#3d8bff;--warn:#ff6b6b;--gold:#f5c842;--text:#e8eaf0;--muted:#6b7385}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
-  body::before{content:'';position:fixed;top:-200px;left:-200px;width:700px;height:700px;
-    background:radial-gradient(circle,rgba(0,229,160,0.07) 0%,transparent 70%);pointer-events:none;z-index:0}
-  body::after{content:'';position:fixed;bottom:-200px;right:-200px;width:600px;height:600px;
-    background:radial-gradient(circle,rgba(61,139,255,0.05) 0%,transparent 70%);pointer-events:none;z-index:0}
-  .wrap{max-width:980px;margin:0 auto;padding:32px 18px;position:relative;z-index:1}
+  body::before{content:'';position:fixed;top:-200px;left:-200px;width:600px;height:600px;
+    background:radial-gradient(circle,rgba(0,229,160,0.07),transparent 70%);pointer-events:none;z-index:0}
 
-  #loader{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:16px;transition:opacity 0.4s}
-  #loader.hide{opacity:0;pointer-events:none}
-  .spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--accent);
-    border-radius:50%;animation:spin 0.8s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  #loader p{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--muted)}
-
-  /* ── Ticker Tape (marquee-style) ── */
+  /* ── Ticker Tape ── */
   .tape-wrap{width:100%;background:var(--surface);border-bottom:1px solid var(--border);
     overflow:hidden;padding:10px 0;position:relative}
-  .tape-wrap::before,.tape-wrap::after{content:'';position:absolute;top:0;width:80px;height:100%;z-index:2;pointer-events:none}
+  .tape-wrap::before,.tape-wrap::after{content:'';position:absolute;top:0;width:60px;height:100%;z-index:2;pointer-events:none}
   .tape-wrap::before{left:0;background:linear-gradient(90deg,var(--surface),transparent)}
   .tape-wrap::after{right:0;background:linear-gradient(-90deg,var(--surface),transparent)}
-  .tape-track{display:flex;gap:0;animation:tape 40s linear infinite;width:max-content}
+  .tape-track{display:flex;animation:tape 30s linear infinite;width:max-content}
   .tape-wrap:hover .tape-track{animation-play-state:paused}
   @keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  .tape-item{display:inline-flex;align-items:center;gap:10px;padding:0 28px;border-right:1px solid var(--border);white-space:nowrap}
-  .tape-item .ti-name{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
-  .tape-item .ti-price{font-family:'DM Mono',monospace;font-size:0.82rem;font-weight:500}
-  .tape-item .ti-chg{font-family:'DM Mono',monospace;font-size:0.72rem;padding:2px 7px;border-radius:4px}
+  .tape-item{display:inline-flex;align-items:center;gap:8px;padding:0 22px;border-right:1px solid var(--border);white-space:nowrap}
+  .ti-name{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+  .ti-price{font-family:'DM Mono',monospace;font-size:0.8rem;font-weight:500}
+  .ti-chg{font-family:'DM Mono',monospace;font-size:0.7rem;padding:2px 6px;border-radius:4px}
   .ti-chg.up{background:rgba(0,229,160,0.12);color:var(--accent)}
   .ti-chg.dn{background:rgba(255,107,107,0.1);color:var(--warn)}
-  .ti-chg.flat{background:rgba(107,115,133,0.15);color:var(--muted)}
 
-  /* ── Market Grid Cards ── */
-  .market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:8px}
-  .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;
-    padding:16px 18px;transition:border-color 0.2s,transform 0.15s;position:relative;overflow:hidden}
+  /* ── Market Grid ── */
+  .wrap{max-width:960px;margin:0 auto;padding:24px 16px;position:relative;z-index:1}
+  .market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:20px}
+  .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:transform 0.15s,border-color 0.2s}
   .mcard:hover{border-color:rgba(0,229,160,0.25);transform:translateY(-2px)}
-  .mcard .mc-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px}
-  .mcard .mc-price{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:600;margin-bottom:5px}
-  .mcard .mc-chg{font-family:'DM Mono',monospace;font-size:0.75rem;display:inline-block;
-    padding:3px 9px;border-radius:5px}
-  .mcard .mc-chg.up{background:rgba(0,229,160,0.1);color:var(--accent)}
-  .mcard .mc-chg.dn{background:rgba(255,107,107,0.1);color:var(--warn)}
-  .mcard .mc-chg.flat{color:var(--muted)}
-  .mcard .mc-sub{font-size:0.63rem;color:var(--muted);margin-top:5px}
-  .mcard-skeleton{opacity:0.35}
-  .pulse-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;
-    display:inline-block;margin-right:4px;animation:pulse 2s infinite}
+  .mc-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px}
+  .mc-price{font-family:'DM Mono',monospace;font-size:1.05rem;font-weight:600;margin-bottom:4px}
+  .mc-chg{font-family:'DM Mono',monospace;font-size:0.72rem;display:inline-block;padding:2px 8px;border-radius:4px}
+  .mc-chg.up{background:rgba(0,229,160,0.1);color:var(--accent)}
+  .mc-chg.dn{background:rgba(255,107,107,0.1);color:var(--warn)}
+  .mc-sub{font-size:0.6rem;color:var(--muted);margin-top:4px}
+  .pulse-dot{display:inline-block;width:5px;height:5px;background:var(--accent);border-radius:50%;
+    margin-right:3px;animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.2}}
 
-  /* ── Header ── */
-  .hdr{margin-bottom:28px;margin-top:8px}
-  .hdr-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px}
-  .hdr h1{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1.15}
-  .hdr h1 span{color:var(--accent)}
-  .hdr-meta{font-size:0.78rem;color:var(--muted);margin-top:4px}
-  .hdr-meta b{color:var(--accent);font-weight:500}
-  .badge-auto{display:inline-flex;align-items:center;gap:6px;background:rgba(0,229,160,0.07);
-    border:1px solid rgba(0,229,160,0.18);padding:6px 14px;border-radius:999px;
-    font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--accent)}
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+  /* ── Section label ── */
+  .sec-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);
+    margin:4px 0 12px;display:flex;align-items:center;gap:10px}
+  .sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
 
-  .goal-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;
-    padding:14px 20px;display:flex;gap:24px;flex-wrap:wrap;align-items:center}
-  .gi .gl{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em}
-  .gi .gv{font-family:'DM Mono',monospace;font-size:0.95rem;margin-top:3px;font-weight:600}
-  .col-green{color:var(--accent)}.col-blue{color:var(--accent2)}.col-gold{color:var(--gold)}
-  .col-red{color:var(--warn)}.col-muted{color:var(--muted)}
+  /* ── Summary bar (always visible) ── */
+  .summary-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:14px 20px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .gi .gl{font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+  .gi .gv{font-family:'DM Mono',monospace;font-size:0.9rem;margin-top:2px;font-weight:600}
+  .col-green{color:var(--accent)}.col-blue{color:var(--accent2)}.col-gold{color:var(--gold)}.col-red{color:var(--warn)}
 
-  /* ── KPI Cards ── */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:28px}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 16px;
-    animation:fadeUp 0.5s ease both;transition:border-color 0.2s,transform 0.15s}
-  .card:hover{border-color:rgba(0,229,160,0.28);transform:translateY(-2px)}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-  .card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.1s}
-  .card:nth-child(3){animation-delay:.15s}.card:nth-child(4){animation-delay:.2s}
-  .card .cl{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
-  .card .cv{font-family:'DM Mono',monospace;font-size:1.2rem;font-weight:500}
-  .card .cs{font-size:0.72rem;color:var(--muted);margin-top:4px}
-  .g{color:var(--accent)}.r{color:var(--warn)}.b{color:var(--accent2)}.go{color:var(--gold)}
+  /* ── Collapsible panels ── */
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color 0.2s}
+  .panel:hover{border-color:rgba(0,229,160,0.2)}
+  .panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;
+    cursor:pointer;user-select:none;gap:12px}
+  .panel-title{display:flex;align-items:center;gap:10px;font-weight:600;font-size:0.95rem}
+  .panel-emoji{font-size:1.05rem}
+  .panel-meta{display:flex;gap:16px;flex-wrap:wrap}
+  .pm-item .pm-l{font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
+  .pm-item .pm-v{font-family:'DM Mono',monospace;font-size:0.82rem;font-weight:600;margin-top:1px}
+  .chevron{font-size:0.9rem;color:var(--muted);transition:transform 0.3s,color 0.2s;line-height:1;flex-shrink:0}
+  .panel-hdr:hover .chevron{color:var(--accent)}
+  .panel-hdr[aria-expanded="true"] .chevron{transform:rotate(180deg)}
 
-  /* ── Section Labels ── */
-  .sec{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);
-    margin:28px 0 14px;display:flex;align-items:center;gap:10px}
-  .sec::after{content:'';flex:1;height:1px;background:var(--border)}
+  .panel-body{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1)}
+  .panel-body.open{max-height:1200px}
+  .panel-body-inner{padding:0 20px 20px}
 
-  /* ── Fund Cards ── */
-  .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-bottom:8px}
-  .fund-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
-    padding:22px;transition:border-color 0.2s,transform 0.15s;animation:fadeUp 0.5s ease both;position:relative;overflow:hidden}
-  .fund-card:hover{transform:translateY(-3px)}
-  .fc-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
-  .ficon{width:46px;height:46px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;
-    justify-content:center;font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:700;color:#fff;letter-spacing:0.04em}
-  .fc-title .fname{font-weight:600;font-size:0.9rem;line-height:1.4}
-  .fc-title .fhouse{font-size:0.7rem;color:var(--muted);margin-top:2px}
-  .nav-pill{display:inline-block;font-family:'DM Mono',monospace;font-size:0.68rem;
-    padding:4px 10px;border-radius:999px;margin-top:7px}
-  .nav-pill.ok{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent)}
-  .nav-pill.no{background:rgba(255,107,107,0.08);border:1px solid rgba(255,107,107,0.2);color:var(--warn)}
-  .fc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-  .fc-stat .sl{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
-  .fc-stat .sv{font-family:'DM Mono',monospace;font-size:0.93rem;margin-top:3px;font-weight:600}
-  .fc-stat.full{grid-column:1/-1}
-  .fc-bar{height:4px;border-radius:999px;background:var(--surface2);overflow:hidden;margin-top:12px}
-  .fc-bar-fill{height:100%;border-radius:999px}
-  .fc-pct{font-size:0.63rem;color:var(--muted);margin-top:5px;font-family:'DM Mono',monospace}
+  /* ── KPI cards ── */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;padding-top:4px}
+  .kcard{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px}
+  .kc-l{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:6px}
+  .kc-v{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:600}
+  .kc-s{font-size:0.68rem;color:var(--muted);margin-top:3px}
 
-  /* ── Transaction Table ── */
-  .txn-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
-  .txn-wrap table{width:100%;border-collapse:collapse}
-  .txn-wrap th{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);
-    padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2);font-weight:500}
-  .txn-wrap td{font-size:0.8rem;padding:11px 16px;border-bottom:1px solid rgba(37,41,51,0.5);font-family:'DM Mono',monospace}
-  .txn-wrap tr:last-child td{border-bottom:none}
-  .txn-wrap tr:hover td{background:rgba(255,255,255,0.013)}
-  .fund-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;flex-shrink:0}
-  .txn-name{font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500}
-  .txn-sub{font-size:0.68rem;color:var(--muted);margin-top:2px}
-  .txn-more{text-align:center;padding:12px;font-size:0.75rem;color:var(--accent2);
-    cursor:pointer;font-family:'DM Mono',monospace;border-top:1px solid var(--border)}
-  .txn-more:hover{background:rgba(61,139,255,0.05)}
+  /* ── Fund cards ── */
+  .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;padding-top:4px}
+  .fcard{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .fcard-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+  .ficon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-family:'DM Mono',monospace;font-size:0.68rem;font-weight:700;color:#fff;flex-shrink:0}
+  .fname{font-weight:600;font-size:0.85rem;line-height:1.35}
+  .fhouse{font-size:0.67rem;color:var(--muted);margin-top:1px}
+  .nav-tag{font-family:'DM Mono',monospace;font-size:0.63rem;padding:3px 8px;border-radius:999px;
+    margin-top:5px;display:inline-block;
+    background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.2);color:var(--accent)}
+  .fstats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .fs-l{font-size:0.58rem;text-transform:uppercase;color:var(--muted);letter-spacing:0.05em}
+  .fs-v{font-family:'DM Mono',monospace;font-size:0.85rem;font-weight:600;margin-top:2px}
+  .fbar{height:3px;border-radius:999px;background:var(--border);margin-top:10px;overflow:hidden}
+  .fbar-fill{height:100%;border-radius:999px}
+
+  /* ── Transaction table ── */
+  .txn-scroll{overflow-x:auto;padding-top:4px}
+  table{width:100%;border-collapse:collapse}
+  th{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);
+    padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2);font-weight:500}
+  td{font-size:0.78rem;padding:9px 12px;border-bottom:1px solid rgba(37,41,51,0.5);font-family:'DM Mono',monospace}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(255,255,255,0.01)}
+  .dot8{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
 
   /* ── Projection ── */
-  .proj-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:28px}
-  .proj-box h3{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:18px}
-  .slider-row{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
-  .slider-row label{font-size:0.78rem;color:var(--muted)}
-  input[type=range]{-webkit-appearance:none;width:160px;height:4px;border-radius:2px;background:var(--border);outline:none;cursor:pointer}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
-    border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 8px rgba(0,229,160,0.45)}
-  #rate-val{font-family:'DM Mono',monospace;color:var(--accent);font-size:0.95rem;min-width:38px}
-  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
-  .pi{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
-  .pi.hi{background:linear-gradient(135deg,rgba(0,229,160,0.12),rgba(61,139,255,0.12));border-color:rgba(0,229,160,0.28)}
-  .pi .pl{font-size:0.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
-  .pi .pv{font-family:'DM Mono',monospace;font-size:1rem;font-weight:600}
-  .pi.hi .pv{color:var(--accent);font-size:1.2rem}
-  .prog-track{background:var(--surface2);border-radius:999px;height:10px;overflow:hidden}
-  .prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.6s ease}
-  .prog-labels{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--muted);margin-bottom:6px}
-  .prog-pct{text-align:center;font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--accent2);margin-top:6px}
+  .proj-inner{padding-top:4px}
+  .slider-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .slider-row label{font-size:0.75rem;color:var(--muted)}
+  input[type=range]{-webkit-appearance:none;width:140px;height:4px;border-radius:2px;background:var(--border);outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer}
+  .rate-val{font-family:'DM Mono',monospace;color:var(--accent);font-size:0.9rem;min-width:36px}
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px}
+  .pi{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+  .pi.hi{background:linear-gradient(135deg,rgba(0,229,160,0.12),rgba(61,139,255,0.1));border-color:rgba(0,229,160,0.3)}
+  .pi .pl{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px}
+  .pi .pv{font-family:'DM Mono',monospace;font-size:0.9rem;font-weight:600}
+  .pi.hi .pv{color:var(--accent);font-size:1.05rem}
+  .prog-track{background:var(--surface2);border-radius:999px;height:8px;overflow:hidden}
+  .prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:38%;transition:width 0.5s}
+  .prog-labels{display:flex;justify-content:space-between;font-size:0.65rem;color:var(--muted);margin-bottom:5px}
+  .prog-pct{text-align:center;font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--accent2);margin-top:5px}
 
-  /* ── Market status notice ── */
-  .market-status{font-size:0.68rem;color:var(--muted);font-family:'DM Mono',monospace;
-    text-align:right;margin-bottom:10px}
-  .market-status .live{color:var(--accent)}
-  .market-status .closed{color:var(--gold)}
-
-  /* ── Collapsible Portfolio ── */
-  .section-toggle{display:flex;align-items:center;justify-content:space-between;
-    cursor:pointer;user-select:none;padding:10px 0;margin-bottom:0}
-  .section-toggle:hover .toggle-icon{color:var(--accent)}
-  .toggle-icon{font-size:1.1rem;color:var(--muted);transition:transform 0.3s,color 0.2s;line-height:1}
-  .toggle-icon.open{transform:rotate(180deg)}
-  .collapsible{overflow:hidden;transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
-    max-height:2000px;opacity:1}
-  .collapsible.closed{max-height:0;opacity:0}
-  .portfolio-hdr{background:var(--surface);border:1px solid var(--border);border-radius:14px;
-    padding:14px 20px;margin-bottom:16px;cursor:pointer;transition:border-color 0.2s}
-  .portfolio-hdr:hover{border-color:rgba(0,229,160,0.3)}
-  .ph-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .ph-title{font-family:'DM Serif Display',serif;font-size:1.2rem;display:flex;align-items:center;gap:10px}
-  .ph-stats{display:flex;gap:20px;flex-wrap:wrap}
-  .ph-stat .phs-l{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
-  .ph-stat .phs-v{font-family:'DM Mono',monospace;font-size:0.88rem;font-weight:600;margin-top:2px}
-
-  .err-box{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.25);border-radius:12px;
-    padding:20px 24px;color:var(--warn);font-family:'DM Mono',monospace;font-size:0.82rem;text-align:center;margin:40px 0}
-
-  .refresh-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(61,139,255,0.1);
-    border:1px solid rgba(61,139,255,0.25);color:var(--accent2);font-family:'DM Mono',monospace;
-    font-size:0.72rem;padding:6px 14px;border-radius:999px;cursor:pointer;transition:all 0.2s;margin-left:12px}
-  .refresh-btn:hover{background:rgba(61,139,255,0.18)}
-  .refresh-btn.spinning svg{animation:spin 1s linear infinite}
-
-  @media(max-width:600px){.hdr h1{font-size:1.5rem}.fund-grid{grid-template-columns:1fr}.txn-wrap{overflow-x:auto}.market-grid{grid-template-columns:repeat(2,1fr)}.ph-stats{gap:12px}}
+  @media(max-width:600px){.market-grid{grid-template-columns:repeat(2,1fr)}.fund-grid{grid-template-columns:1fr}.panel-meta{display:none}}
 </style>
 </head>
 <body>
 
-<div id="loader">
-  <div class="spinner"></div>
-  <p>Loading portfolio…</p>
-</div>
-
-<!-- ── 1. Scrolling Ticker Tape ── -->
+<!-- Ticker tape -->
 <div class="tape-wrap">
-  <div class="tape-track" id="tape-track">
-    <!-- filled by JS; duplicated for seamless loop -->
-  </div>
+  <div class="tape-track" id="tape"></div>
 </div>
 
 <div class="wrap">
+  <div class="sec-label" style="margin-top:8px">Live Market Prices</div>
 
-  <!-- ── 2. Market Cards ── -->
-  <div class="sec" style="margin-top:8px">
-    Live Market Prices
-    <span id="mkt-status" class="market-status" style="margin-left:auto;margin-bottom:0"></span>
-    <button class="refresh-btn" id="refresh-btn" onclick="fetchMarket()" title="Refresh">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-      Refresh
-    </button>
+  <!-- Market cards (always visible) -->
+  <div class="market-grid">
+    <div class="mcard"><div class="mc-label">NIFTY 50</div><div class="mc-price">₹25,571.25</div><div class="mc-chg up">+116.90 (+0.46%)</div><div class="mc-sub"><span class="pulse-dot"></span>Live</div></div>
+    <div class="mcard"><div class="mc-label">BANK NIFTY</div><div class="mc-price">₹55,432.10</div><div class="mc-chg up">+312.45 (+0.57%)</div><div class="mc-sub">Closed</div></div>
+    <div class="mcard"><div class="mc-label">NIFTY IT</div><div class="mc-price">₹32,004.05</div><div class="mc-chg dn">-315.35 (-0.98%)</div><div class="mc-sub">Closed</div></div>
+    <div class="mcard"><div class="mc-label">NIFTY MIDCAP</div><div class="mc-price">₹59,210.80</div><div class="mc-chg up">+287.00 (+0.49%)</div><div class="mc-sub">Closed</div></div>
+    <div class="mcard"><div class="mc-label">NIFTY 500</div><div class="mc-price">₹23,395.00</div><div class="mc-chg up">+97.55 (+0.42%)</div><div class="mc-sub">Closed</div></div>
+    <div class="mcard"><div class="mc-label">NASDAQ 100</div><div class="mc-price">$21,432.50</div><div class="mc-chg up">+145.30 (+0.68%)</div><div class="mc-sub">Closed</div></div>
+    <div class="mcard"><div class="mc-label">GOLD</div><div class="mc-price">$5,080.90</div><div class="mc-chg up">+105.00 (+2.11%)</div><div class="mc-sub">Closed</div></div>
+    <div class="mcard"><div class="mc-label">SILVER</div><div class="mc-price">$82.343</div><div class="mc-chg up">+4.78 (+6.16%)</div><div class="mc-sub">Closed</div></div>
   </div>
 
-  <div class="market-grid" id="market-grid">
-    <!-- skeleton cards -->
-    <div class="mcard mcard-skeleton" id="mc-0"><div class="mc-label">NIFTY 50</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
-    <div class="mcard mcard-skeleton" id="mc-1"><div class="mc-label">BANK NIFTY</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
-    <div class="mcard mcard-skeleton" id="mc-2"><div class="mc-label">NIFTY IT</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
-    <div class="mcard mcard-skeleton" id="mc-3"><div class="mc-label">NIFTY MIDCAP 100</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
-    <div class="mcard mcard-skeleton" id="mc-4"><div class="mc-label">NIFTY 500</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
-    <div class="mcard mcard-skeleton" id="mc-5"><div class="mc-label">NASDAQ 100</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
-    <div class="mcard mcard-skeleton" id="mc-6"><div class="mc-label">GOLD (COMEX)</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
-    <div class="mcard mcard-skeleton" id="mc-7"><div class="mc-label">SILVER (COMEX)</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
+  <!-- Always-visible summary bar -->
+  <div class="summary-bar">
+    <div style="font-family:'DM Serif Display',serif;font-size:1.15rem;flex-shrink:0">My Portfolio</div>
+    <div class="gi"><div class="gl">Invested</div><div class="gv col-blue">₹1,75,000</div></div>
+    <div class="gi"><div class="gl">Live Value</div><div class="gv col-green">₹2,14,380</div></div>
+    <div class="gi"><div class="gl">Gain</div><div class="gv col-green">+₹39,380 (+22.5%)</div></div>
+    <div class="gi"><div class="gl">XIRR</div><div class="gv col-gold">18.4% p.a.</div></div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       PORTFOLIO SECTION (collapsible)
-  ══════════════════════════════════════════ -->
-
-  <!-- Always-visible summary header -->
-  <div class="hdr">
-    <div class="hdr-top">
-      <div>
-        <h1>My Portfolio<br><span>NAV Dashboard</span></h1>
-        <div class="hdr-meta">Updated daily via <b>GitHub Actions</b> · NAV from AMFI</div>
+  <!-- ── Panel: Overview ── -->
+  <div class="panel">
+    <div class="panel-hdr" onclick="toggle(this)" aria-expanded="true">
+      <div class="panel-title"><span class="panel-emoji">📊</span> Overview</div>
+      <div class="panel-meta">
+        <div class="pm-item"><div class="pm-l">Funds</div><div class="pm-v col-blue">3</div></div>
+        <div class="pm-item"><div class="pm-l">Transactions</div><div class="pm-v col-gold">24</div></div>
       </div>
-      <div class="badge-auto"><div class="dot"></div><span id="update-time">Auto-updated</span></div>
+      <div class="chevron">⌃</div>
     </div>
-    <div class="goal-bar">
-      <div class="gi"><div class="gl">Total Invested</div><div class="gv col-blue"  id="hdr-inv">—</div></div>
-      <div class="gi"><div class="gl">Portfolio Value</div><div class="gv col-green" id="hdr-val">—</div></div>
-      <div class="gi"><div class="gl">Total Gain / Loss</div><div class="gv" id="hdr-gain">—</div></div>
-      <div class="gi"><div class="gl">XIRR (approx)</div><div class="gv col-gold"  id="hdr-xirr">—</div></div>
-      <div class="gi"><div class="gl">NAV as of</div><div class="gv col-muted"     id="hdr-navdate">—</div></div>
-    </div>
-  </div>
-
-  <!-- ── Section: KPI Overview ── -->
-  <div class="portfolio-hdr" onclick="toggleSection('kpi-section','kpi-icon')">
-    <div class="ph-row">
-      <div class="ph-title">📊 Overview <span class="toggle-icon open" id="kpi-icon">⌃</span></div>
-      <div class="ph-stats">
-        <div class="ph-stat"><div class="phs-l">Invested</div><div class="phs-v col-blue" id="ph-inv">—</div></div>
-        <div class="ph-stat"><div class="phs-l">Value</div><div class="phs-v col-green" id="ph-val">—</div></div>
-        <div class="ph-stat"><div class="phs-l">Gain/Loss</div><div class="phs-v" id="ph-gain">—</div></div>
+    <div class="panel-body open">
+      <div class="panel-body-inner">
+        <div class="kpi-grid">
+          <div class="kcard"><div class="kc-l">Total Invested</div><div class="kc-v col-blue">₹1,75,000</div><div class="kc-s">3 funds</div></div>
+          <div class="kcard"><div class="kc-l">Live Value</div><div class="kc-v col-green">₹2,14,380</div><div class="kc-s">Latest NAV</div></div>
+          <div class="kcard"><div class="kc-l">Gain / Loss</div><div class="kc-v col-green">+₹39,380</div><div class="kc-s">+22.5%</div></div>
+          <div class="kcard"><div class="kc-l">Transactions</div><div class="kc-v" style="color:var(--gold)">24</div><div class="kc-s">3 unique funds</div></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="collapsible" id="kpi-section">
-    <div class="cards">
-      <div class="card"><div class="cl">Total Invested</div><div class="cv b" id="kpi-inv">—</div><div class="cs" id="kpi-funds">—</div></div>
-      <div class="card"><div class="cl">Live Value</div><div class="cv g" id="kpi-val">—</div><div class="cs">Latest NAV</div></div>
-      <div class="card"><div class="cl">Gain / Loss</div><div class="cv" id="kpi-gain">—</div><div class="cs" id="kpi-pct">—</div></div>
-      <div class="card"><div class="cl">Transactions</div><div class="cv go" id="kpi-count">—</div><div class="cs" id="kpi-funds2">— unique funds</div></div>
-    </div>
-  </div>
 
-  <!-- ── Section: Holdings ── -->
-  <div class="portfolio-hdr" onclick="toggleSection('holdings-section','holdings-icon')">
-    <div class="ph-row">
-      <div class="ph-title">🏦 Holdings <span class="toggle-icon open" id="holdings-icon">⌃</span></div>
-    </div>
-  </div>
-  <div class="collapsible" id="holdings-section">
-    <div class="fund-grid" id="fund-grid"></div>
-  </div>
-
-  <!-- ── Section: Transactions ── -->
-  <div class="portfolio-hdr" onclick="toggleSection('txn-section','txn-icon')">
-    <div class="ph-row">
-      <div class="ph-title">📋 Transaction History <span class="toggle-icon" id="txn-icon">⌃</span></div>
-    </div>
-  </div>
-  <div class="collapsible closed" id="txn-section">
-    <div class="txn-wrap" id="txn-table"></div>
-  </div>
-
-  <!-- ── Section: Projection ── -->
-  <div class="portfolio-hdr" onclick="toggleSection('proj-section','proj-icon')">
-    <div class="ph-row">
-      <div class="ph-title">🎯 Wealth Projection <span class="toggle-icon open" id="proj-icon">⌃</span></div>
-    </div>
-  </div>
-  <div class="collapsible" id="proj-section">
-    <div class="proj-box">
-      <h3>Corpus Estimator</h3>
-      <div class="slider-row">
-        <label>Expected Annual Return:</label>
-        <input type="range" id="rate" min="6" max="18" value="10" step="0.5" oninput="calcProj()">
-        <span id="rate-val">10%</span>
+  <!-- ── Panel: Holdings ── -->
+  <div class="panel">
+    <div class="panel-hdr" onclick="toggle(this)" aria-expanded="true">
+      <div class="panel-title"><span class="panel-emoji">🏦</span> Holdings</div>
+      <div class="panel-meta">
+        <div class="pm-item"><div class="pm-l">Best Fund</div><div class="pm-v col-green">KA +31%</div></div>
+        <div class="pm-item"><div class="pm-l">Worst</div><div class="pm-v" style="color:var(--warn)">IP +12%</div></div>
       </div>
-      <div class="proj-grid">
-        <div class="pi"><div class="pl">Current Value</div><div class="pv" id="p-corpus">—</div></div>
-        <div class="pi"><div class="pl">Monthly SIP</div><div class="pv" id="p-sip">—</div></div>
-        <div class="pi"><div class="pl">Growth Earned</div><div class="pv" id="p-growth">—</div></div>
-        <div class="pi hi"><div class="pl">🎯 Future Value</div><div class="pv" id="p-total">—</div></div>
+      <div class="chevron">⌃</div>
+    </div>
+    <div class="panel-body open">
+      <div class="panel-body-inner">
+        <div class="fund-grid">
+          <div class="fcard" style="border-color:#3d8bff33">
+            <div class="fcard-head">
+              <div class="ficon" style="background:linear-gradient(135deg,#3d8bffcc,#3d8bff)">KA</div>
+              <div>
+                <div class="fname">Kotak Arbitrage Fund — Direct Growth</div>
+                <div class="fhouse">Kotak Mahindra AMC</div>
+                <div class="nav-tag">NAV ₹23.4521 · 20 Feb</div>
+              </div>
+            </div>
+            <div class="fstats">
+              <div><div class="fs-l">Invested</div><div class="fs-v col-blue">₹75,000</div></div>
+              <div><div class="fs-l">Live Value</div><div class="fs-v col-green">₹98,500</div></div>
+              <div><div class="fs-l">Units</div><div class="fs-v">3,204.1192</div></div>
+              <div><div class="fs-l">Avg NAV</div><div class="fs-v">₹23.4152</div></div>
+              <div style="grid-column:1/-1"><div class="fs-l">Gain / Loss</div><div class="fs-v col-green">+₹23,500 (31.3%)</div></div>
+            </div>
+            <div class="fbar"><div class="fbar-fill" style="width:46%;background:#3d8bff"></div></div>
+          </div>
+          <div class="fcard" style="border-color:#fbbf2433">
+            <div class="fcard-head">
+              <div class="ficon" style="background:linear-gradient(135deg,#fbbf24cc,#fbbf24)">MA</div>
+              <div>
+                <div class="fname">ICICI Multi-Asset Fund — Direct Growth</div>
+                <div class="fhouse">ICICI Prudential AMC</div>
+                <div class="nav-tag">NAV ₹909.9181 · 20 Feb</div>
+              </div>
+            </div>
+            <div class="fstats">
+              <div><div class="fs-l">Invested</div><div class="fs-v col-blue">₹60,000</div></div>
+              <div><div class="fs-l">Live Value</div><div class="fs-v col-green">₹74,220</div></div>
+              <div><div class="fs-l">Units</div><div class="fs-v">65.9320</div></div>
+              <div><div class="fs-l">Avg NAV</div><div class="fs-v">₹909.9181</div></div>
+              <div style="grid-column:1/-1"><div class="fs-l">Gain / Loss</div><div class="fs-v col-green">+₹14,220 (23.7%)</div></div>
+            </div>
+            <div class="fbar"><div class="fbar-fill" style="width:35%;background:#fbbf24"></div></div>
+          </div>
+          <div class="fcard" style="border-color:#34d39933">
+            <div class="fcard-head">
+              <div class="ficon" style="background:linear-gradient(135deg,#34d399cc,#34d399)">ES</div>
+              <div>
+                <div class="fname">Kotak Equity Savings Fund — Direct Growth</div>
+                <div class="fhouse">Kotak Mahindra AMC</div>
+                <div class="nav-tag">NAV ₹58.4210 · 20 Feb</div>
+              </div>
+            </div>
+            <div class="fstats">
+              <div><div class="fs-l">Invested</div><div class="fs-v col-blue">₹40,000</div></div>
+              <div><div class="fs-l">Live Value</div><div class="fs-v col-green">₹41,660</div></div>
+              <div><div class="fs-l">Units</div><div class="fs-v">684.2318</div></div>
+              <div><div class="fs-l">Avg NAV</div><div class="fs-v">₹58.4210</div></div>
+              <div style="grid-column:1/-1"><div class="fs-l">Gain / Loss</div><div class="fs-v col-green">+₹1,660 (4.2%)</div></div>
+            </div>
+            <div class="fbar"><div class="fbar-fill" style="width:19%;background:#34d399"></div></div>
+          </div>
+        </div>
       </div>
-      <div class="prog-labels"><span id="prog-l">Now: —</span><span id="prog-r">Target: —</span></div>
-      <div class="prog-track"><div class="prog-fill" id="prog" style="width:0%"></div></div>
-      <div class="prog-pct" id="prog-pct">—</div>
+    </div>
+  </div>
+
+  <!-- ── Panel: Transactions (closed by default) ── -->
+  <div class="panel">
+    <div class="panel-hdr" onclick="toggle(this)" aria-expanded="false">
+      <div class="panel-title"><span class="panel-emoji">📋</span> Transaction History</div>
+      <div class="panel-meta">
+        <div class="pm-item"><div class="pm-l">Total</div><div class="pm-v">24 txns</div></div>
+        <div class="pm-item"><div class="pm-l">Latest</div><div class="pm-v">15 Feb</div></div>
+      </div>
+      <div class="chevron" style="transform:rotate(180deg)">⌃</div>
+    </div>
+    <div class="panel-body">
+      <div class="panel-body-inner">
+        <div class="txn-scroll">
+          <table>
+            <thead><tr><th>Fund</th><th>Date</th><th>Invested</th><th>Units</th><th>NAV at Buy</th></tr></thead>
+            <tbody>
+              <tr><td><span class="dot8" style="background:#3d8bff"></span>Kotak Arbitrage Fund</td><td style="color:var(--muted)">2025-02-15</td><td style="color:var(--accent2)">₹10,000</td><td>426.5821</td><td>₹23.4521</td></tr>
+              <tr><td><span class="dot8" style="background:#fbbf24"></span>ICICI Multi-Asset Fund</td><td style="color:var(--muted)">2025-02-10</td><td style="color:var(--accent2)">₹25,000</td><td>27.475</td><td>₹909.9181</td></tr>
+              <tr><td><span class="dot8" style="background:#34d399"></span>Kotak Equity Savings</td><td style="color:var(--muted)">2025-01-28</td><td style="color:var(--accent2)">₹10,000</td><td>171.1580</td><td>₹58.4400</td></tr>
+              <tr><td><span class="dot8" style="background:#3d8bff"></span>Kotak Arbitrage Fund</td><td style="color:var(--muted)">2025-01-15</td><td style="color:var(--accent2)">₹10,000</td><td>430.2110</td><td>₹23.2448</td></tr>
+              <tr><td><span class="dot8" style="background:#fbbf24"></span>ICICI Multi-Asset Fund</td><td style="color:var(--muted)">2025-01-10</td><td style="color:var(--accent2)">₹25,000</td><td>27.912</td><td>₹895.6200</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Panel: Projection ── -->
+  <div class="panel">
+    <div class="panel-hdr" onclick="toggle(this)" aria-expanded="true">
+      <div class="panel-title"><span class="panel-emoji">🎯</span> Wealth Projection</div>
+      <div class="panel-meta">
+        <div class="pm-item"><div class="pm-l">Target</div><div class="pm-v col-gold">₹20L</div></div>
+        <div class="pm-item"><div class="pm-l">Progress</div><div class="pm-v col-green">38%</div></div>
+      </div>
+      <div class="chevron">⌃</div>
+    </div>
+    <div class="panel-body open">
+      <div class="panel-body-inner">
+        <div class="proj-inner">
+          <div class="slider-row">
+            <label>Expected Annual Return:</label>
+            <input type="range" id="rate" min="6" max="18" value="12" step="0.5" oninput="updateRate(this.value)">
+            <span class="rate-val" id="rval">12%</span>
+          </div>
+          <div class="proj-grid">
+            <div class="pi"><div class="pl">Current Value</div><div class="pv col-green">₹2.14L</div></div>
+            <div class="pi"><div class="pl">Monthly SIP</div><div class="pv col-blue">₹10K/mo</div></div>
+            <div class="pi"><div class="pl">Growth</div><div class="pv col-gold" id="p-growth">₹3.82L</div></div>
+            <div class="pi hi"><div class="pl">🎯 Future Value</div><div class="pv" id="p-total">₹8.96L</div></div>
+          </div>
+          <div class="prog-labels"><span>Now: ₹2.14L</span><span>Target: ₹20L</span></div>
+          <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+          <div class="prog-pct" id="prog-pct">38.0% of ₹20L</div>
+        </div>
+      </div>
     </div>
   </div>
 
 </div>
 
 <script>
-// ═══════════════════════════════════════════════
-//  COLLAPSIBLE SECTIONS
-// ═══════════════════════════════════════════════
-function toggleSection(sectionId, iconId) {
-  const section = document.getElementById(sectionId);
-  const icon    = document.getElementById(iconId);
-  const isOpen  = !section.classList.contains('closed');
-  section.classList.toggle('closed', isOpen);
-  icon.classList.toggle('open', !isOpen);
-}
-
-// ═══════════════════════════════════════════════
-//  CONFIG
-// ═══════════════════════════════════════════════
-const DATA_URL    = './data/portfolio.json';
-const GOAL        = 2000000;
-const SIP         = 10000;
-const TARGET_DATE = new Date(2027, 11, 6);
-
-// Yahoo Finance symbols → display config
-// NSE indices use ^ prefix; futures use =F suffix
-const MARKET_SYMBOLS = [
-  { symbol: '^NSEI',      label: 'NIFTY 50',        currency: '₹', decimals: 2 },
-  { symbol: '^NSEBANK',   label: 'BANK NIFTY',      currency: '₹', decimals: 2 },
-  { symbol: '^CNXIT',     label: 'NIFTY IT',        currency: '₹', decimals: 2 },
-  { symbol: 'NIFTY_MIDCAP_100.NS', label: 'NIFTY MIDCAP 100', currency: '₹', decimals: 2 },
-  { symbol: '^CRSLDX',    label: 'NIFTY 500',       currency: '₹', decimals: 2 },
-  { symbol: 'NQ=F',       label: 'NASDAQ 100',      currency: '$', decimals: 2 },
-  { symbol: 'GC=F',       label: 'GOLD (COMEX)',    currency: '$', decimals: 2 },
-  { symbol: 'SI=F',       label: 'SILVER (COMEX)',  currency: '$', decimals: 3 },
+// Ticker tape
+const tapeItems = [
+  {n:'NIFTY 50',p:'₹25,571',c:'+0.46%',up:true},
+  {n:'BANK NIFTY',p:'₹55,432',c:'+0.57%',up:true},
+  {n:'NIFTY IT',p:'₹32,004',c:'-0.98%',up:false},
+  {n:'MIDCAP',p:'₹59,210',c:'+0.49%',up:true},
+  {n:'NIFTY 500',p:'₹23,395',c:'+0.42%',up:true},
+  {n:'NASDAQ',p:'$21,432',c:'+0.68%',up:true},
+  {n:'GOLD',p:'$5,080',c:'+2.11%',up:true},
+  {n:'SILVER',p:'$82.34',c:'+6.16%',up:true},
 ];
+const tape = document.getElementById('tape');
+const html = tapeItems.map(i=>`<div class="tape-item">
+  <span class="ti-name">${i.n}</span>
+  <span class="ti-price">${i.p}</span>
+  <span class="ti-chg ${i.up?'up':'dn'}">${i.c}</span>
+</div>`).join('');
+tape.innerHTML = html + html; // duplicate for seamless loop
 
-// ═══════════════════════════════════════════════
-//  MARKET DATA — Yahoo Finance via CORS proxy
-// ═══════════════════════════════════════════════
-// We use a free public CORS-anywhere proxy pointed at Yahoo Finance's
-// unofficial quote API. No API key, no account needed.
-// The proxy simply adds the required CORS headers.
-const YAHOO_BASE = 'https://query1.finance.yahoo.com/v8/finance/chart/';
-// allorigins is a lightweight open-source proxy, less likely to be flagged
-// Fallback order: allorigins → thingproxy
-const PROXIES = [
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  url => `https://thingproxy.freeboard.io/fetch/${url}`,
-];
-let _proxyIdx = 0;
-
-let marketData = {};
-
-async function fetchOneTicker(sym) {
-  const rawUrl = YAHOO_BASE + encodeURIComponent(sym) + '?interval=1d&range=2d';
-  for (let i = 0; i < PROXIES.length; i++) {
-    const idx = (_proxyIdx + i) % PROXIES.length;
-    try {
-      const url = PROXIES[idx](rawUrl);
-      const res = await fetch(url, { signal: AbortSignal.timeout(9000) });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const json = await res.json();
-      const meta = json?.chart?.result?.[0]?.meta;
-      if (!meta) throw new Error('No meta');
-      const price      = meta.regularMarketPrice ?? null;
-      const prevClose  = meta.chartPreviousClose ?? meta.previousClose ?? null;
-      const change     = (price && prevClose) ? price - prevClose : null;
-      const changePct  = (price && prevClose) ? ((price - prevClose) / prevClose) * 100 : null;
-      const rawState   = meta.marketState ?? 'UNKNOWN';
-      const stateLabel = { REGULAR: 'Live', PRE: 'Pre-Market', POST: 'After Hours',
-                           POSTPOST: 'After Hours', CLOSED: 'Closed', UNKNOWN: 'Closed' };
-      const state = stateLabel[rawState] || 'Closed';
-      _proxyIdx = idx; // remember which proxy worked
-      return { price, prevClose, change, changePct, state, rawState };
-    } catch(e) { /* try next proxy */ }
-  }
-  return null;
+// Panel toggle
+function toggle(hdr) {
+  const body    = hdr.nextElementSibling;
+  const chevron = hdr.querySelector('.chevron');
+  const isOpen  = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+  hdr.setAttribute('aria-expanded', String(!isOpen));
 }
 
-async function fetchMarket() {
-  const btn = document.getElementById('refresh-btn');
-  btn.classList.add('spinning');
-
-  // Fetch all in parallel
-  const results = await Promise.all(MARKET_SYMBOLS.map(s => fetchOneTicker(s.symbol)));
-
-  results.forEach((data, i) => {
-    const cfg  = MARKET_SYMBOLS[i];
-    const card = document.getElementById('mc-' + i);
-    if (!card) return;
-    card.classList.remove('mcard-skeleton');
-
-    if (!data || data.price === null) {
-      card.innerHTML = `
-        <div class="mc-label">${cfg.label}</div>
-        <div class="mc-price" style="color:var(--muted)">—</div>
-        <div class="mc-chg flat">unavailable</div>`;
-      return;
-    }
-
-    const up   = data.changePct >= 0;
-    const cls  = Math.abs(data.changePct) < 0.01 ? 'flat' : (up ? 'up' : 'dn');
-    const sign = up ? '+' : '';
-    const fmt  = v => v.toLocaleString('en-IN', {minimumFractionDigits: cfg.decimals, maximumFractionDigits: cfg.decimals});
-
-    marketData[cfg.symbol] = data;
-    card.innerHTML = `
-      <div class="mc-label">${cfg.label}</div>
-      <div class="mc-price">${cfg.currency}${fmt(data.price)}</div>
-      <div class="mc-chg ${cls}">${sign}${data.change.toFixed(2)} (${sign}${data.changePct.toFixed(2)}%)</div>
-      <div class="mc-sub">${data.rawState === 'REGULAR' ? '<span class="pulse-dot"></span>Live' : data.state}</div>`;
-  });
-
-  updateTape(results);
-  updateMarketStatus(results);
-  btn.classList.remove('spinning');
-}
-
-function updateTape(results) {
-  const track = document.getElementById('tape-track');
-  const items = MARKET_SYMBOLS.map((cfg, i) => {
-    const d   = results[i];
-    if (!d || d.price === null) return `<div class="tape-item"><span class="ti-name">${cfg.label}</span><span class="ti-price" style="color:var(--muted)">—</span></div>`;
-    const up  = d.changePct >= 0;
-    const cls = Math.abs(d.changePct) < 0.01 ? 'flat' : (up ? 'up' : 'dn');
-    const sign = up ? '+' : '';
-    const fmt  = v => v.toLocaleString('en-IN', {minimumFractionDigits: cfg.decimals, maximumFractionDigits: cfg.decimals});
-    return `<div class="tape-item">
-      <span class="ti-name">${cfg.label}</span>
-      <span class="ti-price">${cfg.currency}${fmt(d.price)}</span>
-      <span class="ti-chg ${cls}">${sign}${d.changePct.toFixed(2)}%</span>
-    </div>`;
-  }).join('');
-  // Duplicate for seamless infinite scroll
-  track.innerHTML = items + items;
-}
-
-function updateMarketStatus(results) {
-  const statuses = results.filter(Boolean).map(r => r.rawState);
-  const isLive   = statuses.some(s => s === 'REGULAR' || s === 'PRE');
-  const el = document.getElementById('mkt-status');
-  const now = new Date();
-  const t = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'}) + ' IST';
-  el.innerHTML = isLive
-    ? `<span class="live"><span class="pulse-dot"></span>Market Open</span> · ${t}`
-    : `<span class="closed">Market Closed</span> · ${t}`;
-}
-
-// ═══════════════════════════════════════════════
-//  PORTFOLIO
-// ═══════════════════════════════════════════════
-const inr  = v => '₹' + Math.round(v).toLocaleString('en-IN');
-const inrL = v => v >= 1e5 ? '₹' + (v/1e5).toFixed(2)+'L' : inr(v);
-const mo   = (a,b) => (b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMonth());
-
-window.addEventListener('DOMContentLoaded', async () => {
-  // Fire market + portfolio fetch in parallel
-  fetchMarket(); // non-blocking, updates UI as it lands
-  // Auto-refresh market every 60s
-  setInterval(fetchMarket, 60_000);
-
-  try {
-    const res = await fetch(DATA_URL + '?t=' + Date.now());
-    if (!res.ok) throw new Error(`HTTP ${res.status} — portfolio.json not found`);
-    const data = await res.json();
-    render(data);
-  } catch (err) {
-    document.getElementById('loader').classList.add('hide');
-    document.querySelector('.wrap').insertAdjacentHTML('afterbegin',
-      `<div class="err-box">⚠ Could not load portfolio data.<br><br>
-        Make sure <code>data/portfolio.json</code> exists in your repo.<br><br>
-        <small>${err.message}</small></div>`
-    );
-  }
-});
-
-let _liveCorpus = 0;
-
-function render(data) {
-  const s = data.summary;
-  const funds = data.holdings || [];
-  const txns  = data.transactions || [];
-
-  const d = new Date(data.generatedAt);
-  document.getElementById('update-time').textContent =
-    'Updated ' + d.toLocaleDateString('en-IN', {day:'numeric',month:'short'}) +
-    ' · ' + d.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
-
-  document.getElementById('hdr-inv').textContent  = inr(s.totalInvested);
-  document.getElementById('hdr-val').textContent  = inr(s.totalValue);
-  const g = s.totalGain;
-  document.getElementById('hdr-gain').textContent = (g>=0?'+':'−') + inr(Math.abs(g));
-  document.getElementById('hdr-gain').className   = 'gv ' + (g>=0?'col-green':'col-red');
-  document.getElementById('hdr-xirr').textContent = s.xirr ? s.xirr + '% p.a.' : '—';
-  const navDate = funds.find(f=>f.navDate)?.navDate || '—';
-  document.getElementById('hdr-navdate').textContent = navDate;
-
-  // Mini stats in collapsible headers
-  document.getElementById('ph-inv').textContent  = inr(s.totalInvested);
-  document.getElementById('ph-val').textContent  = inr(s.totalValue);
-  document.getElementById('ph-gain').textContent = (g>=0?'+':'−') + inr(Math.abs(g));
-  document.getElementById('ph-gain').className   = 'phs-v ' + (g>=0?'col-green':'col-red');
-
-  document.getElementById('kpi-inv').textContent   = inr(s.totalInvested);
-  document.getElementById('kpi-funds').textContent  = s.fundCount + ' fund' + (s.fundCount!==1?'s':'');
-  document.getElementById('kpi-val').textContent    = inr(s.totalValue);
-  document.getElementById('kpi-gain').textContent   = (g>=0?'+':'−') + inr(Math.abs(g));
-  document.getElementById('kpi-gain').className     = 'cv ' + (g>=0?'g':'r');
-  document.getElementById('kpi-pct').textContent    = (s.gainPct>=0?'+':'') + s.gainPct + '%';
-  document.getElementById('kpi-pct').className      = 'cs ' + (s.gainPct>=0?'g':'r');
-  document.getElementById('kpi-count').textContent  = s.txnCount;
-  document.getElementById('kpi-funds2').textContent = s.fundCount + ' unique funds';
-
-  renderFundGrid(funds);
-  renderTxnTable(txns);
-  _liveCorpus = s.totalValue;
-  calcProj();
-  document.getElementById('loader').classList.add('hide');
-}
-
-function renderFundGrid(funds) {
-  const grid = document.getElementById('fund-grid');
-  grid.innerHTML = '';
-  funds.forEach((f, i) => {
-    const color   = f.color || '#6b7385';
-    const gainCls = f.gain >= 0 ? 'g' : 'r';
-    const navStr  = f.liveNAV
-      ? `<span class="nav-pill ok">NAV ₹${f.liveNAV.toFixed(4)} · ${f.navDate||''}</span>`
-      : `<span class="nav-pill no">NAV unavailable</span>`;
-    const card = document.createElement('div');
-    card.className = 'fund-card';
-    card.style.cssText = `animation-delay:${i*0.1}s; border-color:${color}33`;
-    card.innerHTML = `
-      <div class="fc-head">
-        <div class="ficon" style="background:linear-gradient(135deg,${color}cc,${color})">${f.short||'MF'}</div>
-        <div class="fc-title">
-          <div class="fname">${f.fundName}</div>
-          <div class="fhouse">${f.fundHouse}</div>
-          ${navStr}
-        </div>
-      </div>
-      <div class="fc-stats">
-        <div class="fc-stat"><div class="sl">Invested</div><div class="sv b">${inr(f.invested)}</div></div>
-        <div class="fc-stat"><div class="sl">Live Value</div><div class="sv g">${inr(f.liveValue)}</div></div>
-        <div class="fc-stat"><div class="sl">Units</div><div class="sv">${f.units.toFixed(4)}</div></div>
-        <div class="fc-stat"><div class="sl">Avg NAV</div><div class="sv">₹${f.avgNAV.toFixed(4)}</div></div>
-        <div class="fc-stat full">
-          <div class="sl">Gain / Loss</div>
-          <div class="sv ${gainCls}">${f.gain>=0?'+':'−'}${inr(Math.abs(f.gain))} &nbsp;(${f.gainPct}%)</div>
-        </div>
-      </div>
-      <div class="fc-bar"><div class="fc-bar-fill" style="width:${f.portfolioPct}%;background:${color}"></div></div>
-      <div class="fc-pct">${f.portfolioPct}% of portfolio · ${allTransactionsForFund(f.fundName)} transactions</div>`;
-    grid.appendChild(card);
-  });
-}
-
-let _txns = [];
-function allTransactionsForFund(name) {
-  return _txns.filter(t => t.fundName === name).length;
-}
-
-function renderTxnTable(txns) {
-  _txns = txns;
-  const wrap = document.getElementById('txn-table');
-  const PAGE = 15;
-  let showing = PAGE;
-  function buildTable() {
-    const slice = txns.slice(0, showing);
-    const rows = slice.map(t => {
-      const color = getFundColor(t.fundName);
-      return `<tr>
-        <td><span class="fund-dot" style="background:${color}"></span>
-          <span class="txn-name">${t.fundName.length>44?t.fundName.slice(0,44)+'…':t.fundName}</span>
-          <div class="txn-sub">Folio ${t.folio}</div></td>
-        <td style="color:var(--muted)">${t.date}</td>
-        <td class="b">${inr(t.invested)}</td>
-        <td>${t.units.toFixed(4)}</td>
-        <td>₹${t.historicalNAV.toFixed(4)}</td>
-        <td>${inr(t.historicalValue)}</td>
-      </tr>`;
-    }).join('');
-    const moreRow = showing < txns.length
-      ? `<tr><td colspan="6" class="txn-more" id="show-more">↓ Show more (${txns.length-showing} remaining)</td></tr>` : '';
-    wrap.innerHTML = `<table>
-      <thead><tr><th>Fund</th><th>Date</th><th>Invested</th><th>Units</th><th>NAV at Buy</th><th>Value at Buy</th></tr></thead>
-      <tbody>${rows}${moreRow}</tbody></table>`;
-    const btn = document.getElementById('show-more');
-    if (btn) btn.addEventListener('click', () => { showing = Math.min(showing+PAGE, txns.length); buildTable(); });
-  }
-  buildTable();
-}
-
-function getFundColor(name) {
-  const n = name.toLowerCase();
-  if (n.includes('kotak')) return '#3d8bff';
-  if (n.includes('multi')) return '#fbbf24';
-  if (n.includes('equity') || n.includes('saving')) return '#34d399';
-  return '#6b7385';
-}
-
-function calcProj() {
-  const rate = parseFloat(document.getElementById('rate').value);
-  document.getElementById('rate-val').textContent = rate + '%';
-  const r = rate / 100 / 12;
-  const months = mo(new Date(), TARGET_DATE);
-  const c = _liveCorpus || 0;
-  const fvC = c * Math.pow(1+r, months);
-  const fvS = SIP * ((Math.pow(1+r, months) - 1) / r) * (1+r);
-  const tot = fvC + fvS;
-  const grow = tot - c - SIP * months;
-  const pct = Math.min((tot / GOAL) * 100, 100);
-  document.getElementById('p-corpus').textContent = inrL(c);
-  document.getElementById('p-sip').textContent    = inrL(SIP) + '/mo';
-  document.getElementById('p-growth').textContent = inrL(grow);
-  document.getElementById('p-total').textContent  = inrL(tot);
-  document.getElementById('prog-l').textContent   = 'Now: ' + inrL(c);
-  document.getElementById('prog-r').textContent   = 'Target: ' + inrL(GOAL);
-  document.getElementById('prog').style.width     = pct + '%';
-  document.getElementById('prog-pct').textContent = pct.toFixed(1) + '% of ' + inrL(GOAL);
+// Projection slider (demo)
+function updateRate(v) {
+  document.getElementById('rval').textContent = v + '%';
+  const r = v/100/12, months=22, c=214380, sip=10000;
+  const fv = c*Math.pow(1+r,months) + sip*((Math.pow(1+r,months)-1)/r)*(1+r);
+  const grow = fv - c - sip*months;
+  const pct  = Math.min((fv/2000000)*100,100);
+  document.getElementById('p-growth').textContent = '₹'+(grow/1e5).toFixed(2)+'L';
+  document.getElementById('p-total').textContent  = '₹'+(fv/1e5).toFixed(2)+'L';
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-pct').textContent  = pct.toFixed(1)+'% of ₹20L';
 }
 </script>
 </body>
