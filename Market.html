@@ -283,7 +283,7 @@ const MARKET_SYMBOLS = [
   { symbol: '^NSEI',      label: 'NIFTY 50',        currency: '₹', decimals: 2 },
   { symbol: '^NSEBANK',   label: 'BANK NIFTY',      currency: '₹', decimals: 2 },
   { symbol: '^CNXIT',     label: 'NIFTY IT',        currency: '₹', decimals: 2 },
-  { symbol: '^CNXMIDCAP', label: 'NIFTY MIDCAP 100',currency: '₹', decimals: 2 },
+  { symbol: 'NIFTY_MIDCAP_100.NS', label: 'NIFTY MIDCAP 100', currency: '₹', decimals: 2 },
   { symbol: '^CRSLDX',    label: 'NIFTY 500',       currency: '₹', decimals: 2 },
   { symbol: 'NQ=F',       label: 'NASDAQ 100',      currency: '$', decimals: 2 },
   { symbol: 'GC=F',       label: 'GOLD (COMEX)',    currency: '$', decimals: 2 },
@@ -313,8 +313,11 @@ async function fetchOneTicker(sym) {
     const prevClose  = meta.chartPreviousClose ?? meta.previousClose ?? null;
     const change     = (price && prevClose) ? price - prevClose : null;
     const changePct  = (price && prevClose) ? ((price - prevClose) / prevClose) * 100 : null;
-    const state      = meta.marketState ?? 'UNKNOWN';
-    return { price, prevClose, change, changePct, state };
+    const rawState   = meta.marketState ?? 'UNKNOWN';
+    const stateLabel = { REGULAR: 'Live', PRE: 'Pre-Market', POST: 'After Hours',
+                         POSTPOST: 'After Hours', CLOSED: 'Closed', UNKNOWN: 'Closed' };
+    const state = stateLabel[rawState] || 'Closed';
+    return { price, prevClose, change, changePct, state, rawState };
   } catch(e) {
     return null;
   }
@@ -351,7 +354,7 @@ async function fetchMarket() {
       <div class="mc-label">${cfg.label}</div>
       <div class="mc-price">${cfg.currency}${fmt(data.price)}</div>
       <div class="mc-chg ${cls}">${sign}${data.change.toFixed(2)} (${sign}${data.changePct.toFixed(2)}%)</div>
-      <div class="mc-sub">${data.state === 'REGULAR' ? '<span class="pulse-dot"></span>Live' : data.state === 'CLOSED' ? 'Closed' : data.state}</div>`;
+      <div class="mc-sub">${data.rawState === 'REGULAR' ? '<span class="pulse-dot"></span>Live' : data.state}</div>`;
   });
 
   updateTape(results);
@@ -379,7 +382,7 @@ function updateTape(results) {
 }
 
 function updateMarketStatus(results) {
-  const statuses = results.filter(Boolean).map(r => r.state);
+  const statuses = results.filter(Boolean).map(r => r.rawState);
   const isLive   = statuses.some(s => s === 'REGULAR' || s === 'PRE');
   const el = document.getElementById('mkt-status');
   const now = new Date();
