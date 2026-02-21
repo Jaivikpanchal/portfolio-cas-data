@@ -24,12 +24,40 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   #loader p{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--muted)}
 
-  /* ── TradingView ticker strip ── */
-  .tv-ticker{width:100%;background:var(--surface);border-bottom:1px solid var(--border)}
+  /* ── Ticker Tape (marquee-style) ── */
+  .tape-wrap{width:100%;background:var(--surface);border-bottom:1px solid var(--border);
+    overflow:hidden;padding:10px 0;position:relative}
+  .tape-wrap::before,.tape-wrap::after{content:'';position:absolute;top:0;width:80px;height:100%;z-index:2;pointer-events:none}
+  .tape-wrap::before{left:0;background:linear-gradient(90deg,var(--surface),transparent)}
+  .tape-wrap::after{right:0;background:linear-gradient(-90deg,var(--surface),transparent)}
+  .tape-track{display:flex;gap:0;animation:tape 40s linear infinite;width:max-content}
+  .tape-wrap:hover .tape-track{animation-play-state:paused}
+  @keyframes tape{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .tape-item{display:inline-flex;align-items:center;gap:10px;padding:0 28px;border-right:1px solid var(--border);white-space:nowrap}
+  .tape-item .ti-name{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+  .tape-item .ti-price{font-family:'DM Mono',monospace;font-size:0.82rem;font-weight:500}
+  .tape-item .ti-chg{font-family:'DM Mono',monospace;font-size:0.72rem;padding:2px 7px;border-radius:4px}
+  .ti-chg.up{background:rgba(0,229,160,0.12);color:var(--accent)}
+  .ti-chg.dn{background:rgba(255,107,107,0.1);color:var(--warn)}
+  .ti-chg.flat{background:rgba(107,115,133,0.15);color:var(--muted)}
 
-  /* ── Single ticker grid ── */
-  .ticker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:8px}
-  .ticker-cell{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+  /* ── Market Grid Cards ── */
+  .market-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:8px}
+  .mcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:16px 18px;transition:border-color 0.2s,transform 0.15s;position:relative;overflow:hidden}
+  .mcard:hover{border-color:rgba(0,229,160,0.25);transform:translateY(-2px)}
+  .mcard .mc-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px}
+  .mcard .mc-price{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:600;margin-bottom:5px}
+  .mcard .mc-chg{font-family:'DM Mono',monospace;font-size:0.75rem;display:inline-block;
+    padding:3px 9px;border-radius:5px}
+  .mcard .mc-chg.up{background:rgba(0,229,160,0.1);color:var(--accent)}
+  .mcard .mc-chg.dn{background:rgba(255,107,107,0.1);color:var(--warn)}
+  .mcard .mc-chg.flat{color:var(--muted)}
+  .mcard .mc-sub{font-size:0.63rem;color:var(--muted);margin-top:5px}
+  .mcard-skeleton{opacity:0.35}
+  .pulse-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;
+    display:inline-block;margin-right:4px;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.2}}
 
   /* ── Header ── */
   .hdr{margin-bottom:28px;margin-top:8px}
@@ -42,7 +70,6 @@
     border:1px solid rgba(0,229,160,0.18);padding:6px 14px;border-radius:999px;
     font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--accent)}
   .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
   .goal-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;
     padding:14px 20px;display:flex;gap:24px;flex-wrap:wrap;align-items:center}
@@ -69,7 +96,7 @@
     margin:28px 0 14px;display:flex;align-items:center;gap:10px}
   .sec::after{content:'';flex:1;height:1px;background:var(--border)}
 
-  /* ── Fund Overview Cards ── */
+  /* ── Fund Cards ── */
   .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-bottom:8px}
   .fund-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
     padding:22px;transition:border-color 0.2s,transform 0.15s;animation:fadeUp 0.5s ease both;position:relative;overflow:hidden}
@@ -126,10 +153,22 @@
   .prog-labels{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--muted);margin-bottom:6px}
   .prog-pct{text-align:center;font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--accent2);margin-top:6px}
 
+  /* ── Market status notice ── */
+  .market-status{font-size:0.68rem;color:var(--muted);font-family:'DM Mono',monospace;
+    text-align:right;margin-bottom:10px}
+  .market-status .live{color:var(--accent)}
+  .market-status .closed{color:var(--gold)}
+
   .err-box{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.25);border-radius:12px;
     padding:20px 24px;color:var(--warn);font-family:'DM Mono',monospace;font-size:0.82rem;text-align:center;margin:40px 0}
 
-  @media(max-width:600px){.hdr h1{font-size:1.5rem}.fund-grid{grid-template-columns:1fr}.txn-wrap{overflow-x:auto}.ticker-grid{grid-template-columns:repeat(2,1fr)}}
+  .refresh-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(61,139,255,0.1);
+    border:1px solid rgba(61,139,255,0.25);color:var(--accent2);font-family:'DM Mono',monospace;
+    font-size:0.72rem;padding:6px 14px;border-radius:999px;cursor:pointer;transition:all 0.2s;margin-left:12px}
+  .refresh-btn:hover{background:rgba(61,139,255,0.18)}
+  .refresh-btn.spinning svg{animation:spin 1s linear infinite}
+
+  @media(max-width:600px){.hdr h1{font-size:1.5rem}.fund-grid{grid-template-columns:1fr}.txn-wrap{overflow-x:auto}.market-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -139,110 +178,35 @@
   <p>Loading portfolio…</p>
 </div>
 
-<!-- ── 1. TradingView Ticker Tape (free, no login) ── -->
-<div class="tv-ticker">
-  <div class="tradingview-widget-container">
-    <div class="tradingview-widget-container__widget"></div>
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-    {
-      "symbols": [
-      {"proName": "NSE:NIFTY", "title": "Nifty 50"},
-      {"proName": "NSE:BANKNIFTY", "title": "Bank Nifty"},
-      {"proName": "NSE:CNXIT", "title": "Nifty IT"},
-      {"proName": "NSE:NIFTY_MID_SELECT", "title": "Midcap Select"},
-      {"proName": "NSE:NIFTYBEES", "title": "Nifty ETF"},
-      {"proName": "NASDAQ:QQQ", "title": "NASDAQ 100"},
-      {"proName": "COMEX:GC1!", "title": "Gold"},
-      {"proName": "COMEX:SI1!", "title": "Silver"}
-       ],
-  "showSymbolLogo": false,
-  "isTransparent": true,
-  "displayMode": "adaptive",
-  "colorTheme": "dark",
-  "locale": "en"
-}
-    </script>
+<!-- ── 1. Scrolling Ticker Tape ── -->
+<div class="tape-wrap">
+  <div class="tape-track" id="tape-track">
+    <!-- filled by JS; duplicated for seamless loop -->
   </div>
 </div>
 
 <div class="wrap">
 
-  <!-- ── 2. Single Ticker widgets — price + % change, no chart (free) ── -->
-  <div class="sec" style="margin-top:8px">Live Market Prices</div>
-  <div class="ticker-grid">
+  <!-- ── 2. Market Cards ── -->
+  <div class="sec" style="margin-top:8px">
+    Live Market Prices
+    <span id="mkt-status" class="market-status" style="margin-left:auto;margin-bottom:0"></span>
+    <button class="refresh-btn" id="refresh-btn" onclick="fetchMarket()" title="Refresh">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Refresh
+    </button>
+  </div>
 
-    <div class="ticker-cell">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {"symbol":"NSE:NIFTY","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"en"}
-        </script>
-      </div>
-    </div>
-
-    <div class="ticker-cell">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {"symbol":"NSE:BANKNIFTY","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"en"}
-        </script>
-      </div>
-    </div>
-
-    <div class="ticker-cell">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {"symbol":"NSE:CNXIT","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"en"}
-        </script>
-      </div>
-    </div>
-
-    <div class="ticker-cell">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {"symbol":"NSE:NIFTYMIDCAP100","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"en"}
-        </script>
-      </div>
-    </div>
-
-    <div class="ticker-cell">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {"symbol":"NSE:NIFTY500","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"en"}
-        </script>
-      </div>
-    </div>
-
-    <div class="ticker-cell">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {"symbol":"NASDAQ:NQ1!","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"en"}
-        </script>
-      </div>
-    </div>
-
-    <div class="ticker-cell">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {"symbol":"MCX:GOLD1!","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"en"}
-        </script>
-      </div>
-    </div>
-
-    <div class="ticker-cell">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-        {"symbol":"MCX:SILVER1!","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"en"}
-        </script>
-      </div>
-    </div>
-
+  <div class="market-grid" id="market-grid">
+    <!-- skeleton cards -->
+    <div class="mcard mcard-skeleton" id="mc-0"><div class="mc-label">NIFTY 50</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
+    <div class="mcard mcard-skeleton" id="mc-1"><div class="mc-label">BANK NIFTY</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
+    <div class="mcard mcard-skeleton" id="mc-2"><div class="mc-label">NIFTY IT</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
+    <div class="mcard mcard-skeleton" id="mc-3"><div class="mc-label">NIFTY MIDCAP 100</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
+    <div class="mcard mcard-skeleton" id="mc-4"><div class="mc-label">NIFTY 500</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
+    <div class="mcard mcard-skeleton" id="mc-5"><div class="mc-label">NASDAQ 100</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
+    <div class="mcard mcard-skeleton" id="mc-6"><div class="mc-label">GOLD (COMEX)</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
+    <div class="mcard mcard-skeleton" id="mc-7"><div class="mc-label">SILVER (COMEX)</div><div class="mc-price">—</div><div class="mc-chg flat">—</div></div>
   </div>
 
   <!-- ══════════════════════════════════════════
@@ -305,16 +269,139 @@
 </div>
 
 <script>
+// ═══════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════
 const DATA_URL    = './data/portfolio.json';
 const GOAL        = 2000000;
 const SIP         = 10000;
 const TARGET_DATE = new Date(2027, 11, 6);
 
+// Yahoo Finance symbols → display config
+// NSE indices use ^ prefix; futures use =F suffix
+const MARKET_SYMBOLS = [
+  { symbol: '^NSEI',      label: 'NIFTY 50',        currency: '₹', decimals: 2 },
+  { symbol: '^NSEBANK',   label: 'BANK NIFTY',      currency: '₹', decimals: 2 },
+  { symbol: '^CNXIT',     label: 'NIFTY IT',        currency: '₹', decimals: 2 },
+  { symbol: '^CNXMIDCAP', label: 'NIFTY MIDCAP 100',currency: '₹', decimals: 2 },
+  { symbol: '^CRSLDX',    label: 'NIFTY 500',       currency: '₹', decimals: 2 },
+  { symbol: 'NQ=F',       label: 'NASDAQ 100',      currency: '$', decimals: 2 },
+  { symbol: 'GC=F',       label: 'GOLD (COMEX)',    currency: '$', decimals: 2 },
+  { symbol: 'SI=F',       label: 'SILVER (COMEX)',  currency: '$', decimals: 3 },
+];
+
+// ═══════════════════════════════════════════════
+//  MARKET DATA — Yahoo Finance via CORS proxy
+// ═══════════════════════════════════════════════
+// We use a free public CORS-anywhere proxy pointed at Yahoo Finance's
+// unofficial quote API. No API key, no account needed.
+// The proxy simply adds the required CORS headers.
+const YAHOO_BASE = 'https://query1.finance.yahoo.com/v8/finance/chart/';
+const CORS_PROXY = 'https://corsproxy.io/?url=';
+
+let marketData = {};
+
+async function fetchOneTicker(sym) {
+  try {
+    const url = CORS_PROXY + encodeURIComponent(YAHOO_BASE + encodeURIComponent(sym) + '?interval=1d&range=2d');
+    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    const meta = json?.chart?.result?.[0]?.meta;
+    if (!meta) throw new Error('No meta');
+    const price      = meta.regularMarketPrice ?? null;
+    const prevClose  = meta.chartPreviousClose ?? meta.previousClose ?? null;
+    const change     = (price && prevClose) ? price - prevClose : null;
+    const changePct  = (price && prevClose) ? ((price - prevClose) / prevClose) * 100 : null;
+    const state      = meta.marketState ?? 'UNKNOWN';
+    return { price, prevClose, change, changePct, state };
+  } catch(e) {
+    return null;
+  }
+}
+
+async function fetchMarket() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('spinning');
+
+  // Fetch all in parallel
+  const results = await Promise.all(MARKET_SYMBOLS.map(s => fetchOneTicker(s.symbol)));
+
+  results.forEach((data, i) => {
+    const cfg  = MARKET_SYMBOLS[i];
+    const card = document.getElementById('mc-' + i);
+    if (!card) return;
+    card.classList.remove('mcard-skeleton');
+
+    if (!data || data.price === null) {
+      card.innerHTML = `
+        <div class="mc-label">${cfg.label}</div>
+        <div class="mc-price" style="color:var(--muted)">—</div>
+        <div class="mc-chg flat">unavailable</div>`;
+      return;
+    }
+
+    const up   = data.changePct >= 0;
+    const cls  = Math.abs(data.changePct) < 0.01 ? 'flat' : (up ? 'up' : 'dn');
+    const sign = up ? '+' : '';
+    const fmt  = v => v.toLocaleString('en-IN', {minimumFractionDigits: cfg.decimals, maximumFractionDigits: cfg.decimals});
+
+    marketData[cfg.symbol] = data;
+    card.innerHTML = `
+      <div class="mc-label">${cfg.label}</div>
+      <div class="mc-price">${cfg.currency}${fmt(data.price)}</div>
+      <div class="mc-chg ${cls}">${sign}${data.change.toFixed(2)} (${sign}${data.changePct.toFixed(2)}%)</div>
+      <div class="mc-sub">${data.state === 'REGULAR' ? '<span class="pulse-dot"></span>Live' : data.state === 'CLOSED' ? 'Closed' : data.state}</div>`;
+  });
+
+  updateTape(results);
+  updateMarketStatus(results);
+  btn.classList.remove('spinning');
+}
+
+function updateTape(results) {
+  const track = document.getElementById('tape-track');
+  const items = MARKET_SYMBOLS.map((cfg, i) => {
+    const d   = results[i];
+    if (!d || d.price === null) return `<div class="tape-item"><span class="ti-name">${cfg.label}</span><span class="ti-price" style="color:var(--muted)">—</span></div>`;
+    const up  = d.changePct >= 0;
+    const cls = Math.abs(d.changePct) < 0.01 ? 'flat' : (up ? 'up' : 'dn');
+    const sign = up ? '+' : '';
+    const fmt  = v => v.toLocaleString('en-IN', {minimumFractionDigits: cfg.decimals, maximumFractionDigits: cfg.decimals});
+    return `<div class="tape-item">
+      <span class="ti-name">${cfg.label}</span>
+      <span class="ti-price">${cfg.currency}${fmt(d.price)}</span>
+      <span class="ti-chg ${cls}">${sign}${d.changePct.toFixed(2)}%</span>
+    </div>`;
+  }).join('');
+  // Duplicate for seamless infinite scroll
+  track.innerHTML = items + items;
+}
+
+function updateMarketStatus(results) {
+  const statuses = results.filter(Boolean).map(r => r.state);
+  const isLive   = statuses.some(s => s === 'REGULAR' || s === 'PRE');
+  const el = document.getElementById('mkt-status');
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata'}) + ' IST';
+  el.innerHTML = isLive
+    ? `<span class="live"><span class="pulse-dot"></span>Market Open</span> · ${t}`
+    : `<span class="closed">Market Closed</span> · ${t}`;
+}
+
+// ═══════════════════════════════════════════════
+//  PORTFOLIO
+// ═══════════════════════════════════════════════
 const inr  = v => '₹' + Math.round(v).toLocaleString('en-IN');
 const inrL = v => v >= 1e5 ? '₹' + (v/1e5).toFixed(2)+'L' : inr(v);
 const mo   = (a,b) => (b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMonth());
 
 window.addEventListener('DOMContentLoaded', async () => {
+  // Fire market + portfolio fetch in parallel
+  fetchMarket(); // non-blocking, updates UI as it lands
+  // Auto-refresh market every 60s
+  setInterval(fetchMarket, 60_000);
+
   try {
     const res = await fetch(DATA_URL + '?t=' + Date.now());
     if (!res.ok) throw new Error(`HTTP ${res.status} — portfolio.json not found`);
