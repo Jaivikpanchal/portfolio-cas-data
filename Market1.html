@@ -78,17 +78,29 @@
     margin:28px 0 14px;display:flex;align-items:center;gap:10px}
   .sec::after{content:'';flex:1;height:1px;background:var(--border)}
 
+  /* ── Market section header bar (separate from .sec) ── */
+  .mkt-header{display:flex;align-items:center;justify-content:space-between;
+    margin:20px 0 12px;gap:12px;flex-wrap:wrap}
+  .mkt-header-left{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--muted);display:flex;align-items:center;gap:10px;flex:1}
+  .mkt-header-left::after{content:'';flex:1;height:1px;background:var(--border)}
+  .mkt-header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+
   .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;
     margin-bottom:10px;overflow:hidden;transition:border-color 0.2s}
   .panel:hover{border-color:rgba(0,229,160,0.2)}
-  .panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;
-    cursor:pointer;user-select:none;gap:12px}
+  .panel-hdr{display:grid;grid-template-columns:1fr auto 24px;align-items:center;
+    padding:16px 20px;cursor:pointer;user-select:none;gap:24px}
   .panel-title{display:flex;align-items:center;gap:10px;font-weight:600;font-size:0.95rem}
   .panel-emoji{font-size:1.05rem}
-  .panel-meta{display:flex;gap:16px;flex-wrap:wrap}
-  .pm-item .pm-l{font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em}
-  .pm-item .pm-v{font-family:'DM Mono',monospace;font-size:0.82rem;font-weight:600;margin-top:1px}
-  .chevron{font-size:1rem;color:var(--muted);transition:transform 0.3s,color 0.2s;line-height:1;flex-shrink:0}
+  /* Fixed-width meta zone — always 280px so all panels align identically */
+  .panel-meta{display:flex;gap:28px;align-items:center;justify-content:flex-end;width:280px}
+  .pm-item{text-align:right;min-width:60px}
+  .pm-item .pm-l{font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap}
+  .pm-item .pm-v{font-family:'DM Mono',monospace;font-size:0.82rem;font-weight:600;margin-top:2px;white-space:nowrap}
+  /* Chevron always same size, centered in its column */
+  .chevron{font-size:0.7rem;color:var(--muted);transition:transform 0.3s,color 0.2s;
+    text-align:center;line-height:1}
   .panel-hdr:hover .chevron{color:var(--accent)}
   .panel-body{max-height:0;overflow:hidden;transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1)}
   .panel-body.open{max-height:4000px}
@@ -172,8 +184,7 @@
   .prog-labels{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--muted);margin-bottom:6px}
   .prog-pct{text-align:center;font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--accent2);margin-top:6px}
 
-  .market-status{font-size:0.68rem;color:var(--muted);font-family:'DM Mono',monospace;
-    text-align:right;margin-bottom:0}
+  .market-status{font-size:0.68rem;color:var(--muted);font-family:'DM Mono',monospace}
   .market-status .live{color:var(--accent)}
   .market-status .closed{color:var(--gold)}
 
@@ -203,13 +214,15 @@
 
 <div class="wrap">
 
-  <div class="sec" style="margin-top:8px">
-    Live Market Prices
-    <span id="mkt-status" class="market-status" style="margin-left:auto;margin-bottom:0"></span>
-    <button class="refresh-btn" id="refresh-btn" onclick="fetchMarket()" title="Refresh">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-      Refresh
-    </button>
+  <div class="mkt-header">
+    <div class="mkt-header-left">Live Market Prices</div>
+    <div class="mkt-header-right">
+      <span id="mkt-status" class="market-status"></span>
+      <button class="refresh-btn" id="refresh-btn" onclick="fetchMarket()" title="Refresh">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Refresh
+      </button>
+    </div>
   </div>
 
   <div class="market-grid" id="market-grid">
@@ -247,7 +260,7 @@
         <div class="pm-item"><div class="pm-l">Funds</div><div class="pm-v col-blue" id="pm-funds">—</div></div>
         <div class="pm-item"><div class="pm-l">Transactions</div><div class="pm-v go" id="pm-txns">—</div></div>
       </div>
-      <div class="chevron">⌃</div>
+      <div class="chevron">∨</div>
     </div>
     <div class="panel-body open">
       <div class="panel-body-inner">
@@ -265,7 +278,7 @@
     <div class="panel-hdr" onclick="togglePanel(this)" aria-expanded="true">
       <div class="panel-title"><span class="panel-emoji">🏦</span> Holdings — Bird's Eye View</div>
       <div class="panel-meta" id="pm-holdings"></div>
-      <div class="chevron">⌃</div>
+      <div class="chevron">∨</div>
     </div>
     <div class="panel-body open">
       <div class="panel-body-inner">
@@ -280,7 +293,7 @@
       <div class="panel-meta">
         <div class="pm-item"><div class="pm-l">Total</div><div class="pm-v" id="pm-txn-count">—</div></div>
       </div>
-      <div class="chevron" style="transform:rotate(180deg)">⌃</div>
+      <div class="chevron" id="chevron-txn" style="transform:rotate(180deg)">∨</div>
     </div>
     <div class="panel-body">
       <div class="panel-body-inner">
@@ -296,7 +309,7 @@
         <div class="pm-item"><div class="pm-l">Target</div><div class="pm-v col-gold" id="pm-target">—</div></div>
         <div class="pm-item"><div class="pm-l">Progress</div><div class="pm-v col-green" id="pm-progress">—</div></div>
       </div>
-      <div class="chevron">⌃</div>
+      <div class="chevron">∨</div>
     </div>
     <div class="panel-body open">
       <div class="panel-body-inner">
@@ -365,15 +378,19 @@ function togglePanel(hdr) {
   const chevron = hdr.querySelector('.chevron');
   const isOpen  = body.classList.contains('open');
   body.classList.toggle('open', !isOpen);
+  // open = pointing down (0°), closed = pointing up (180°)
   chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
   hdr.setAttribute('aria-expanded', String(!isOpen));
 }
 
-async function fetchOneTicker(sym) {
+// ── FIX: stagger proxy per symbol to avoid hammering one proxy ──
+async function fetchOneTicker(sym, symIndex = 0) {
   const rawUrl = YAHOO_BASE + encodeURIComponent(sym) + '?interval=1d&range=2d';
-  for (const proxyFn of PROXIES) {
+  // Rotate which proxy we try first based on symbol index
+  const rotated = [...PROXIES.slice(symIndex % PROXIES.length), ...PROXIES.slice(0, symIndex % PROXIES.length)];
+  for (const proxyFn of rotated) {
     try {
-      const res = await fetch(proxyFn(rawUrl), { signal: AbortSignal.timeout(8000) });
+      const res = await fetch(proxyFn(rawUrl), { signal: AbortSignal.timeout(9000) });
       if (!res.ok) continue;
       const json = await res.json();
       const meta = json?.chart?.result?.[0]?.meta;
@@ -393,7 +410,8 @@ async function fetchOneTicker(sym) {
 async function fetchMarket() {
   const btn = document.getElementById('refresh-btn');
   btn.classList.add('spinning');
-  const results = await Promise.all(MARKET_SYMBOLS.map(s => fetchOneTicker(s.symbol)));
+  // Pass index so each symbol uses a different proxy first
+  const results = await Promise.all(MARKET_SYMBOLS.map((s, i) => fetchOneTicker(s.symbol, i)));
   results.forEach((data, i) => {
     const cfg  = MARKET_SYMBOLS[i];
     const card = document.getElementById('mc-' + i);
