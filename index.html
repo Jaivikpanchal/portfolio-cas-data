@@ -1,1209 +1,415 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"
-    />
-    <title>Lightweight Charts™ Customization Tutorial</title>
-    <!-- Adding the standalone version of Lightweight charts -->
-    <script
-      type="text/javascript"
-      src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"
-    ></script>
-    <style>
-      body {
-        padding: 0;
-        margin: 0;
-        /* Add a background color to match the chart */
-        background-color: #222;
-      }
-    </style>
-  </head>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio · Live NAV Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0d0f14;--surface:#13161e;--surface2:#1a1e28;--border:#252933;
+    --accent:#00e5a0;--accent2:#3d8bff;--warn:#ff6b6b;--gold:#f5c842;--text:#e8eaf0;--muted:#6b7385}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+  body::before{content:'';position:fixed;top:-200px;left:-200px;width:700px;height:700px;
+    background:radial-gradient(circle,rgba(0,229,160,0.07) 0%,transparent 70%);pointer-events:none;z-index:0}
+  body::after{content:'';position:fixed;bottom:-200px;right:-200px;width:600px;height:600px;
+    background:radial-gradient(circle,rgba(61,139,255,0.05) 0%,transparent 70%);pointer-events:none;z-index:0}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 18px;position:relative;z-index:1}
 
-  <body>
-    <div
-      id="container"
-      style="position: absolute; width: 100%; height: 100%"
-    ></div>
-    <script type="text/javascript">
-      // Function to generate a sample set of Candlestick datapoints
-      function generateCandlestickData() {
-        return [
-          {
-            time: "2018-10-19",
-            open: 180.34,
-            high: 180.99,
-            low: 178.57,
-            close: 179.85,
-          },
-          {
-            time: "2018-10-22",
-            open: 180.82,
-            high: 181.4,
-            low: 177.56,
-            close: 178.75,
-          },
-          {
-            time: "2018-10-23",
-            open: 175.77,
-            high: 179.49,
-            low: 175.44,
-            close: 178.53,
-          },
-          {
-            time: "2018-10-24",
-            open: 178.58,
-            high: 182.37,
-            low: 176.31,
-            close: 176.97,
-          },
-          {
-            time: "2018-10-25",
-            open: 177.52,
-            high: 180.5,
-            low: 176.83,
-            close: 179.07,
-          },
-          {
-            time: "2018-10-26",
-            open: 176.88,
-            high: 177.34,
-            low: 170.91,
-            close: 172.23,
-          },
-          {
-            time: "2018-10-29",
-            open: 173.74,
-            high: 175.99,
-            low: 170.95,
-            close: 173.2,
-          },
-          {
-            time: "2018-10-30",
-            open: 173.16,
-            high: 176.43,
-            low: 172.64,
-            close: 176.24,
-          },
-          {
-            time: "2018-10-31",
-            open: 177.98,
-            high: 178.85,
-            low: 175.59,
-            close: 175.88,
-          },
-          {
-            time: "2018-11-01",
-            open: 176.84,
-            high: 180.86,
-            low: 175.9,
-            close: 180.46,
-          },
-          {
-            time: "2018-11-02",
-            open: 182.47,
-            high: 183.01,
-            low: 177.39,
-            close: 179.93,
-          },
-          {
-            time: "2018-11-05",
-            open: 181.02,
-            high: 182.41,
-            low: 179.3,
-            close: 182.19,
-          },
-          {
-            time: "2018-11-06",
-            open: 181.93,
-            high: 182.65,
-            low: 180.05,
-            close: 182.01,
-          },
-          {
-            time: "2018-11-07",
-            open: 183.79,
-            high: 187.68,
-            low: 182.06,
-            close: 187.23,
-          },
-          {
-            time: "2018-11-08",
-            open: 187.13,
-            high: 188.69,
-            low: 185.72,
-            close: 188.0,
-          },
-          {
-            time: "2018-11-09",
-            open: 188.32,
-            high: 188.48,
-            low: 184.96,
-            close: 185.99,
-          },
-          {
-            time: "2018-11-12",
-            open: 185.23,
-            high: 186.95,
-            low: 179.02,
-            close: 179.43,
-          },
-          {
-            time: "2018-11-13",
-            open: 177.3,
-            high: 181.62,
-            low: 172.85,
-            close: 179.0,
-          },
-          {
-            time: "2018-11-14",
-            open: 182.61,
-            high: 182.9,
-            low: 179.15,
-            close: 179.9,
-          },
-          {
-            time: "2018-11-15",
-            open: 179.01,
-            high: 179.67,
-            low: 173.61,
-            close: 177.36,
-          },
-          {
-            time: "2018-11-16",
-            open: 173.99,
-            high: 177.6,
-            low: 173.51,
-            close: 177.02,
-          },
-          {
-            time: "2018-11-19",
-            open: 176.71,
-            high: 178.88,
-            low: 172.3,
-            close: 173.59,
-          },
-          {
-            time: "2018-11-20",
-            open: 169.25,
-            high: 172.0,
-            low: 167.0,
-            close: 169.05,
-          },
-          {
-            time: "2018-11-21",
-            open: 170.0,
-            high: 170.93,
-            low: 169.15,
-            close: 169.3,
-          },
-          {
-            time: "2018-11-23",
-            open: 169.39,
-            high: 170.33,
-            low: 168.47,
-            close: 168.85,
-          },
-          {
-            time: "2018-11-26",
-            open: 170.2,
-            high: 172.39,
-            low: 168.87,
-            close: 169.82,
-          },
-          {
-            time: "2018-11-27",
-            open: 169.11,
-            high: 173.38,
-            low: 168.82,
-            close: 173.22,
-          },
-          {
-            time: "2018-11-28",
-            open: 172.91,
-            high: 177.65,
-            low: 170.62,
-            close: 177.43,
-          },
-          {
-            time: "2018-11-29",
-            open: 176.8,
-            high: 177.27,
-            low: 174.92,
-            close: 175.66,
-          },
-          {
-            time: "2018-11-30",
-            open: 175.75,
-            high: 180.37,
-            low: 175.11,
-            close: 180.32,
-          },
-          {
-            time: "2018-12-03",
-            open: 183.29,
-            high: 183.5,
-            low: 179.35,
-            close: 181.74,
-          },
-          {
-            time: "2018-12-04",
-            open: 181.06,
-            high: 182.23,
-            low: 174.55,
-            close: 175.3,
-          },
-          {
-            time: "2018-12-06",
-            open: 173.5,
-            high: 176.04,
-            low: 170.46,
-            close: 175.96,
-          },
-          {
-            time: "2018-12-07",
-            open: 175.35,
-            high: 178.36,
-            low: 172.24,
-            close: 172.79,
-          },
-          {
-            time: "2018-12-10",
-            open: 173.39,
-            high: 173.99,
-            low: 167.73,
-            close: 171.69,
-          },
-          {
-            time: "2018-12-11",
-            open: 174.3,
-            high: 175.6,
-            low: 171.24,
-            close: 172.21,
-          },
-          {
-            time: "2018-12-12",
-            open: 173.75,
-            high: 176.87,
-            low: 172.81,
-            close: 174.21,
-          },
-          {
-            time: "2018-12-13",
-            open: 174.31,
-            high: 174.91,
-            low: 172.07,
-            close: 173.87,
-          },
-          {
-            time: "2018-12-14",
-            open: 172.98,
-            high: 175.14,
-            low: 171.95,
-            close: 172.29,
-          },
-          {
-            time: "2018-12-17",
-            open: 171.51,
-            high: 171.99,
-            low: 166.93,
-            close: 167.97,
-          },
-          {
-            time: "2018-12-18",
-            open: 168.9,
-            high: 171.95,
-            low: 168.5,
-            close: 170.04,
-          },
-          {
-            time: "2018-12-19",
-            open: 170.92,
-            high: 174.95,
-            low: 166.77,
-            close: 167.56,
-          },
-          {
-            time: "2018-12-20",
-            open: 166.28,
-            high: 167.31,
-            low: 162.23,
-            close: 164.16,
-          },
-          {
-            time: "2018-12-21",
-            open: 162.81,
-            high: 167.96,
-            low: 160.17,
-            close: 160.48,
-          },
-          {
-            time: "2018-12-24",
-            open: 160.16,
-            high: 161.4,
-            low: 158.09,
-            close: 158.14,
-          },
-          {
-            time: "2018-12-26",
-            open: 159.46,
-            high: 168.28,
-            low: 159.44,
-            close: 168.28,
-          },
-          {
-            time: "2018-12-27",
-            open: 166.44,
-            high: 170.46,
-            low: 163.36,
-            close: 170.32,
-          },
-          {
-            time: "2018-12-28",
-            open: 171.22,
-            high: 173.12,
-            low: 168.6,
-            close: 170.22,
-          },
-          {
-            time: "2018-12-31",
-            open: 171.47,
-            high: 173.24,
-            low: 170.65,
-            close: 171.82,
-          },
-          {
-            time: "2019-01-02",
-            open: 169.71,
-            high: 173.18,
-            low: 169.05,
-            close: 172.41,
-          },
-          {
-            time: "2019-01-03",
-            open: 171.84,
-            high: 171.84,
-            low: 168.21,
-            close: 168.61,
-          },
-          {
-            time: "2019-01-04",
-            open: 170.18,
-            high: 174.74,
-            low: 169.52,
-            close: 173.62,
-          },
-          {
-            time: "2019-01-07",
-            open: 173.83,
-            high: 178.18,
-            low: 173.83,
-            close: 177.04,
-          },
-          {
-            time: "2019-01-08",
-            open: 178.57,
-            high: 179.59,
-            low: 175.61,
-            close: 177.89,
-          },
-          {
-            time: "2019-01-09",
-            open: 177.87,
-            high: 181.27,
-            low: 177.1,
-            close: 179.73,
-          },
-          {
-            time: "2019-01-10",
-            open: 178.03,
-            high: 179.24,
-            low: 176.34,
-            close: 179.06,
-          },
-          {
-            time: "2019-01-11",
-            open: 177.93,
-            high: 180.26,
-            low: 177.12,
-            close: 179.41,
-          },
-          {
-            time: "2019-01-14",
-            open: 177.59,
-            high: 179.23,
-            low: 176.9,
-            close: 178.81,
-          },
-          {
-            time: "2019-01-15",
-            open: 176.08,
-            high: 177.82,
-            low: 175.2,
-            close: 176.47,
-          },
-          {
-            time: "2019-01-16",
-            open: 177.09,
-            high: 177.93,
-            low: 175.86,
-            close: 177.04,
-          },
-          {
-            time: "2019-01-17",
-            open: 174.01,
-            high: 175.46,
-            low: 172.0,
-            close: 174.87,
-          },
-          {
-            time: "2019-01-18",
-            open: 176.98,
-            high: 180.04,
-            low: 176.18,
-            close: 179.58,
-          },
-          {
-            time: "2019-01-22",
-            open: 177.49,
-            high: 178.6,
-            low: 175.36,
-            close: 177.11,
-          },
-          {
-            time: "2019-01-23",
-            open: 176.59,
-            high: 178.06,
-            low: 174.53,
-            close: 176.89,
-          },
-          {
-            time: "2019-01-24",
-            open: 177.0,
-            high: 177.53,
-            low: 175.3,
-            close: 177.29,
-          },
-          {
-            time: "2019-01-25",
-            open: 179.78,
-            high: 180.87,
-            low: 178.61,
-            close: 180.4,
-          },
-          {
-            time: "2019-01-28",
-            open: 178.97,
-            high: 179.99,
-            low: 177.41,
-            close: 179.83,
-          },
-          {
-            time: "2019-01-29",
-            open: 178.96,
-            high: 180.15,
-            low: 178.09,
-            close: 179.69,
-          },
-          {
-            time: "2019-01-30",
-            open: 180.47,
-            high: 184.2,
-            low: 179.78,
-            close: 182.18,
-          },
-          {
-            time: "2019-01-31",
-            open: 181.5,
-            high: 184.67,
-            low: 181.06,
-            close: 183.53,
-          },
-          {
-            time: "2019-02-01",
-            open: 184.03,
-            high: 185.15,
-            low: 182.83,
-            close: 184.37,
-          },
-          {
-            time: "2019-02-04",
-            open: 184.3,
-            high: 186.43,
-            low: 183.84,
-            close: 186.43,
-          },
-          {
-            time: "2019-02-05",
-            open: 186.89,
-            high: 186.99,
-            low: 184.69,
-            close: 186.39,
-          },
-          {
-            time: "2019-02-06",
-            open: 186.69,
-            high: 186.69,
-            low: 184.06,
-            close: 184.72,
-          },
-          {
-            time: "2019-02-07",
-            open: 183.74,
-            high: 184.92,
-            low: 182.45,
-            close: 184.07,
-          },
-          {
-            time: "2019-02-08",
-            open: 183.05,
-            high: 184.58,
-            low: 182.72,
-            close: 184.54,
-          },
-          {
-            time: "2019-02-11",
-            open: 185.0,
-            high: 185.42,
-            low: 182.75,
-            close: 182.92,
-          },
-          {
-            time: "2019-02-12",
-            open: 183.84,
-            high: 186.4,
-            low: 183.52,
-            close: 185.52,
-          },
-          {
-            time: "2019-02-13",
-            open: 186.3,
-            high: 188.68,
-            low: 185.92,
-            close: 188.41,
-          },
-          {
-            time: "2019-02-14",
-            open: 187.5,
-            high: 188.93,
-            low: 186.0,
-            close: 187.71,
-          },
-          {
-            time: "2019-02-15",
-            open: 189.87,
-            high: 192.62,
-            low: 189.05,
-            close: 192.39,
-          },
-          {
-            time: "2019-02-19",
-            open: 191.71,
-            high: 193.19,
-            low: 191.28,
-            close: 192.33,
-          },
-          {
-            time: "2019-02-20",
-            open: 192.39,
-            high: 192.4,
-            low: 191.11,
-            close: 191.85,
-          },
-          {
-            time: "2019-02-21",
-            open: 191.85,
-            high: 192.37,
-            low: 190.61,
-            close: 191.82,
-          },
-          {
-            time: "2019-02-22",
-            open: 191.69,
-            high: 192.54,
-            low: 191.62,
-            close: 192.39,
-          },
-          {
-            time: "2019-02-25",
-            open: 192.75,
-            high: 193.42,
-            low: 189.96,
-            close: 189.98,
-          },
-          {
-            time: "2019-02-26",
-            open: 185.59,
-            high: 188.47,
-            low: 182.8,
-            close: 188.3,
-          },
-          {
-            time: "2019-02-27",
-            open: 187.9,
-            high: 188.5,
-            low: 183.21,
-            close: 183.67,
-          },
-          {
-            time: "2019-02-28",
-            open: 183.6,
-            high: 185.19,
-            low: 183.11,
-            close: 185.14,
-          },
-          {
-            time: "2019-03-01",
-            open: 185.82,
-            high: 186.56,
-            low: 182.86,
-            close: 185.17,
-          },
-          {
-            time: "2019-03-04",
-            open: 186.2,
-            high: 186.24,
-            low: 182.1,
-            close: 183.81,
-          },
-          {
-            time: "2019-03-05",
-            open: 184.24,
-            high: 185.12,
-            low: 183.25,
-            close: 184.0,
-          },
-          {
-            time: "2019-03-06",
-            open: 184.53,
-            high: 184.97,
-            low: 183.84,
-            close: 184.45,
-          },
-          {
-            time: "2019-03-07",
-            open: 184.39,
-            high: 184.62,
-            low: 181.58,
-            close: 182.51,
-          },
-          {
-            time: "2019-03-08",
-            open: 181.49,
-            high: 181.91,
-            low: 179.52,
-            close: 181.23,
-          },
-          {
-            time: "2019-03-11",
-            open: 182.0,
-            high: 183.2,
-            low: 181.2,
-            close: 182.44,
-          },
-          {
-            time: "2019-03-12",
-            open: 183.43,
-            high: 184.27,
-            low: 182.33,
-            close: 184.0,
-          },
-          {
-            time: "2019-03-13",
-            open: 183.24,
-            high: 183.78,
-            low: 181.08,
-            close: 181.14,
-          },
-          {
-            time: "2019-03-14",
-            open: 181.28,
-            high: 181.74,
-            low: 180.5,
-            close: 181.61,
-          },
-          {
-            time: "2019-03-15",
-            open: 182.3,
-            high: 182.49,
-            low: 179.57,
-            close: 182.23,
-          },
-          {
-            time: "2019-03-18",
-            open: 182.53,
-            high: 183.48,
-            low: 182.33,
-            close: 183.42,
-          },
-          {
-            time: "2019-03-19",
-            open: 184.19,
-            high: 185.82,
-            low: 183.48,
-            close: 184.13,
-          },
-          {
-            time: "2019-03-20",
-            open: 184.3,
-            high: 187.12,
-            low: 183.43,
-            close: 186.1,
-          },
-          {
-            time: "2019-03-21",
-            open: 185.5,
-            high: 190.0,
-            low: 185.5,
-            close: 189.97,
-          },
-          {
-            time: "2019-03-22",
-            open: 189.31,
-            high: 192.05,
-            low: 188.67,
-            close: 188.75,
-          },
-          {
-            time: "2019-03-25",
-            open: 188.75,
-            high: 191.71,
-            low: 188.51,
-            close: 189.68,
-          },
-          {
-            time: "2019-03-26",
-            open: 190.69,
-            high: 192.19,
-            low: 188.74,
-            close: 189.34,
-          },
-          {
-            time: "2019-03-27",
-            open: 189.65,
-            high: 191.61,
-            low: 188.39,
-            close: 189.25,
-          },
-          {
-            time: "2019-03-28",
-            open: 189.91,
-            high: 191.4,
-            low: 189.16,
-            close: 190.06,
-          },
-          {
-            time: "2019-03-29",
-            open: 190.85,
-            high: 192.04,
-            low: 190.14,
-            close: 191.89,
-          },
-          {
-            time: "2019-04-01",
-            open: 192.99,
-            high: 195.9,
-            low: 192.85,
-            close: 195.64,
-          },
-          {
-            time: "2019-04-02",
-            open: 195.5,
-            high: 195.5,
-            low: 194.01,
-            close: 194.31,
-          },
-          {
-            time: "2019-04-03",
-            open: 194.98,
-            high: 198.78,
-            low: 194.11,
-            close: 198.61,
-          },
-          {
-            time: "2019-04-04",
-            open: 199.0,
-            high: 200.49,
-            low: 198.02,
-            close: 200.45,
-          },
-          {
-            time: "2019-04-05",
-            open: 200.86,
-            high: 203.13,
-            low: 200.61,
-            close: 202.06,
-          },
-          {
-            time: "2019-04-08",
-            open: 201.37,
-            high: 203.79,
-            low: 201.24,
-            close: 203.55,
-          },
-          {
-            time: "2019-04-09",
-            open: 202.26,
-            high: 202.71,
-            low: 200.46,
-            close: 200.9,
-          },
-          {
-            time: "2019-04-10",
-            open: 201.26,
-            high: 201.6,
-            low: 198.02,
-            close: 199.43,
-          },
-          {
-            time: "2019-04-11",
-            open: 199.9,
-            high: 201.5,
-            low: 199.03,
-            close: 201.48,
-          },
-          {
-            time: "2019-04-12",
-            open: 202.13,
-            high: 204.26,
-            low: 202.13,
-            close: 203.85,
-          },
-          {
-            time: "2019-04-15",
-            open: 204.16,
-            high: 205.14,
-            low: 203.4,
-            close: 204.86,
-          },
-          {
-            time: "2019-04-16",
-            open: 205.25,
-            high: 205.99,
-            low: 204.29,
-            close: 204.47,
-          },
-          {
-            time: "2019-04-17",
-            open: 205.34,
-            high: 206.84,
-            low: 205.32,
-            close: 206.55,
-          },
-          {
-            time: "2019-04-18",
-            open: 206.02,
-            high: 207.78,
-            low: 205.1,
-            close: 205.66,
-          },
-          {
-            time: "2019-04-22",
-            open: 204.11,
-            high: 206.25,
-            low: 204.0,
-            close: 204.78,
-          },
-          {
-            time: "2019-04-23",
-            open: 205.14,
-            high: 207.33,
-            low: 203.43,
-            close: 206.05,
-          },
-          {
-            time: "2019-04-24",
-            open: 206.16,
-            high: 208.29,
-            low: 205.54,
-            close: 206.72,
-          },
-          {
-            time: "2019-04-25",
-            open: 206.01,
-            high: 207.72,
-            low: 205.06,
-            close: 206.5,
-          },
-          {
-            time: "2019-04-26",
-            open: 205.88,
-            high: 206.14,
-            low: 203.34,
-            close: 203.61,
-          },
-          {
-            time: "2019-04-29",
-            open: 203.31,
-            high: 203.8,
-            low: 200.34,
-            close: 202.16,
-          },
-          {
-            time: "2019-04-30",
-            open: 201.55,
-            high: 203.75,
-            low: 200.79,
-            close: 203.7,
-          },
-          {
-            time: "2019-05-01",
-            open: 203.2,
-            high: 203.52,
-            low: 198.66,
-            close: 198.8,
-          },
-          {
-            time: "2019-05-02",
-            open: 199.3,
-            high: 201.06,
-            low: 198.8,
-            close: 201.01,
-          },
-          {
-            time: "2019-05-03",
-            open: 202.0,
-            high: 202.31,
-            low: 200.32,
-            close: 200.56,
-          },
-          {
-            time: "2019-05-06",
-            open: 198.74,
-            high: 199.93,
-            low: 198.31,
-            close: 199.63,
-          },
-          {
-            time: "2019-05-07",
-            open: 196.75,
-            high: 197.65,
-            low: 192.96,
-            close: 194.77,
-          },
-          {
-            time: "2019-05-08",
-            open: 194.49,
-            high: 196.61,
-            low: 193.68,
-            close: 195.17,
-          },
-          {
-            time: "2019-05-09",
-            open: 193.31,
-            high: 195.08,
-            low: 191.59,
-            close: 194.58,
-          },
-          {
-            time: "2019-05-10",
-            open: 193.21,
-            high: 195.49,
-            low: 190.01,
-            close: 194.58,
-          },
-          {
-            time: "2019-05-13",
-            open: 191.0,
-            high: 191.66,
-            low: 189.14,
-            close: 190.34,
-          },
-          {
-            time: "2019-05-14",
-            open: 190.5,
-            high: 192.76,
-            low: 190.01,
-            close: 191.62,
-          },
-          {
-            time: "2019-05-15",
-            open: 190.81,
-            high: 192.81,
-            low: 190.27,
-            close: 191.76,
-          },
-          {
-            time: "2019-05-16",
-            open: 192.47,
-            high: 194.96,
-            low: 192.2,
-            close: 192.38,
-          },
-          {
-            time: "2019-05-17",
-            open: 190.86,
-            high: 194.5,
-            low: 190.75,
-            close: 192.58,
-          },
-          {
-            time: "2019-05-20",
-            open: 191.13,
-            high: 192.86,
-            low: 190.61,
-            close: 190.95,
-          },
-          {
-            time: "2019-05-21",
-            open: 187.13,
-            high: 192.52,
-            low: 186.34,
-            close: 191.45,
-          },
-          {
-            time: "2019-05-22",
-            open: 190.49,
-            high: 192.22,
-            low: 188.05,
-            close: 188.91,
-          },
-          {
-            time: "2019-05-23",
-            open: 188.45,
-            high: 192.54,
-            low: 186.27,
-            close: 192.0,
-          },
-          {
-            time: "2019-05-24",
-            open: 192.54,
-            high: 193.86,
-            low: 190.41,
-            close: 193.59,
-          },
-        ];
-      }
+  #loader{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:16px;transition:opacity 0.4s}
+  #loader.hide{opacity:0;pointer-events:none}
+  .spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--accent);
+    border-radius:50%;animation:spin 0.8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #loader p{font-family:'DM Mono',monospace;font-size:0.8rem;color:var(--muted)}
 
-      // Create the Lightweight Chart within the container element
-      const chart = LightweightCharts.createChart(
-        document.getElementById('container'),
-        {
-          layout: {
-            background: { color: "#222" },
-            textColor: "#C3BCDB",
-          },
-          grid: {
-            vertLines: { color: "#444" },
-            horzLines: { color: "#444" },
-          },
-        }
-      );
+  /* ── Header ── */
+  .hdr{margin-bottom:28px}
+  .hdr-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+  .hdr h1{font-family:'DM Serif Display',serif;font-size:2rem;line-height:1.15}
+  .hdr h1 span{color:var(--accent)}
+  .hdr-meta{font-size:0.78rem;color:var(--muted);margin-top:4px}
+  .hdr-meta b{color:var(--accent);font-weight:500}
+  .badge-auto{display:inline-flex;align-items:center;gap:6px;background:rgba(0,229,160,0.07);
+    border:1px solid rgba(0,229,160,0.18);padding:6px 14px;border-radius:999px;
+    font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--accent)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-      // Setting the border color for the vertical axis
-      chart.priceScale().applyOptions({
-        borderColor: "#71649C",
-      });
+  .goal-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:14px 20px;display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+  .gi .gl{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em}
+  .gi .gv{font-family:'DM Mono',monospace;font-size:0.95rem;margin-top:3px;font-weight:600}
+  .col-green{color:var(--accent)}.col-blue{color:var(--accent2)}.col-gold{color:var(--gold)}
+  .col-red{color:var(--warn)}.col-muted{color:var(--muted)}
 
-      // Setting the border color for the horizontal axis
-      chart.timeScale().applyOptions({
-        borderColor: "#71649C",
-      });
+  /* ── KPI Cards ── */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:28px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 16px;
+    animation:fadeUp 0.5s ease both;transition:border-color 0.2s,transform 0.15s}
+  .card:hover{border-color:rgba(0,229,160,0.28);transform:translateY(-2px)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.1s}
+  .card:nth-child(3){animation-delay:.15s}.card:nth-child(4){animation-delay:.2s}
+  .card .cl{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+  .card .cv{font-family:'DM Mono',monospace;font-size:1.2rem;font-weight:500}
+  .card .cs{font-size:0.72rem;color:var(--muted);margin-top:4px}
+  .g{color:var(--accent)}.r{color:var(--warn)}.b{color:var(--accent2)}.go{color:var(--gold)}
 
-      // Adjust the starting bar width (essentially the horizontal zoom)
-      chart.timeScale().applyOptions({
-        barSpacing: 10,
-      });
+  /* ── Section Labels ── */
+  .sec{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);
+    margin:28px 0 14px;display:flex;align-items:center;gap:10px}
+  .sec::after{content:'';flex:1;height:1px;background:var(--border)}
 
-      // Get the current users primary locale
-      const currentLocale = window.navigator.languages[0];
-      // Create a number format using Intl.NumberFormat
-      const myPriceFormatter = Intl.NumberFormat(currentLocale, {
-        style: "currency",
-        currency: "EUR", // Currency for data points
-      }).format;
+  /* ── Fund Overview Cards ── */
+  .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-bottom:8px}
+  .fund-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:22px;transition:border-color 0.2s,transform 0.15s;animation:fadeUp 0.5s ease both;position:relative;overflow:hidden}
+  .fund-card:hover{transform:translateY(-3px)}
+  .fc-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
+  .ficon{width:46px;height:46px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;
+    justify-content:center;font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:700;color:#fff;letter-spacing:0.04em}
+  .fc-title .fname{font-weight:600;font-size:0.9rem;line-height:1.4}
+  .fc-title .fhouse{font-size:0.7rem;color:var(--muted);margin-top:2px}
+  .nav-pill{display:inline-block;font-family:'DM Mono',monospace;font-size:0.68rem;
+    padding:4px 10px;border-radius:999px;margin-top:7px}
+  .nav-pill.ok{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--accent)}
+  .nav-pill.no{background:rgba(255,107,107,0.08);border:1px solid rgba(255,107,107,0.2);color:var(--warn)}
 
-      // Apply the custom priceFormatter to the chart
-      chart.applyOptions({
-        localization: {
-          priceFormatter: myPriceFormatter,
-        },
-      });
+  .fc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .fc-stat .sl{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+  .fc-stat .sv{font-family:'DM Mono',monospace;font-size:0.93rem;margin-top:3px;font-weight:600}
+  .fc-stat.full{grid-column:1/-1}
+  .fc-bar{height:4px;border-radius:999px;background:var(--surface2);overflow:hidden;margin-top:12px}
+  .fc-bar-fill{height:100%;border-radius:999px}
+  .fc-pct{font-size:0.63rem;color:var(--muted);margin-top:5px;font-family:'DM Mono',monospace}
 
-      // Customizing the Crosshair
-      chart.applyOptions({
-        crosshair: {
-          // Change mode from default 'magnet' to 'normal'.
-          // Allows the crosshair to move freely without snapping to datapoints
-          mode: LightweightCharts.CrosshairMode.Normal,
+  /* ── Transaction Table ── */
+  .txn-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    overflow:hidden;margin-bottom:12px}
+  .txn-wrap table{width:100%;border-collapse:collapse}
+  .txn-wrap th{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);
+    padding:11px 16px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2);font-weight:500}
+  .txn-wrap td{font-size:0.8rem;padding:11px 16px;border-bottom:1px solid rgba(37,41,51,0.5);
+    font-family:'DM Mono',monospace}
+  .txn-wrap tr:last-child td{border-bottom:none}
+  .txn-wrap tr:hover td{background:rgba(255,255,255,0.013)}
+  .fund-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;flex-shrink:0}
+  .txn-name{font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500}
+  .txn-sub{font-size:0.68rem;color:var(--muted);margin-top:2px}
+  .txn-more{text-align:center;padding:12px;font-size:0.75rem;color:var(--accent2);
+    cursor:pointer;font-family:'DM Mono',monospace;border-top:1px solid var(--border)}
+  .txn-more:hover{background:rgba(61,139,255,0.05)}
 
-          // Vertical crosshair line (showing Date in Label)
-          vertLine: {
-            width: 8,
-            color: "#C3BCDB44",
-            style: LightweightCharts.LineStyle.Solid,
-            labelBackgroundColor: "#9B7DFF",
-          },
+  /* ── Projection ── */
+  .proj-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:28px}
+  .proj-box h3{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:18px}
+  .slider-row{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+  .slider-row label{font-size:0.78rem;color:var(--muted)}
+  input[type=range]{-webkit-appearance:none;width:160px;height:4px;border-radius:2px;background:var(--border);outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
+    border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 8px rgba(0,229,160,0.45)}
+  #rate-val{font-family:'DM Mono',monospace;color:var(--accent);font-size:0.95rem;min-width:38px}
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+  .pi{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+  .pi.hi{background:linear-gradient(135deg,rgba(0,229,160,0.12),rgba(61,139,255,0.12));border-color:rgba(0,229,160,0.28)}
+  .pi .pl{font-size:0.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+  .pi .pv{font-family:'DM Mono',monospace;font-size:1rem;font-weight:600}
+  .pi.hi .pv{color:var(--accent);font-size:1.2rem}
+  .prog-track{background:var(--surface2);border-radius:999px;height:10px;overflow:hidden}
+  .prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.6s ease}
+  .prog-labels{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--muted);margin-bottom:6px}
+  .prog-pct{text-align:center;font-family:'DM Mono',monospace;font-size:0.73rem;color:var(--accent2);margin-top:6px}
 
-          // Horizontal crosshair line (showing Price in Label)
-          horzLine: {
-            color: "#9B7DFF",
-            labelBackgroundColor: "#9B7DFF",
-          },
-        },
-      });
+  /* ── Error box ── */
+  .err-box{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.25);border-radius:12px;
+    padding:20px 24px;color:var(--warn);font-family:'DM Mono',monospace;font-size:0.82rem;text-align:center;margin:40px 0}
 
-      // Generate sample data to use within a candlestick series
-      const candleStickData = generateCandlestickData().map((datapoint) => {
-        // map function is changing the color for the individual
-        // candlestick points that close above 205
-        if (datapoint.close < 205) return datapoint;
-        // we are adding 'color' and 'wickColor' properties to the datapoint.
-        // Using spread syntax: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#spread_in_object_literals
-        return { ...datapoint, color: "orange", wickColor: "orange" };
-      });
+  @media(max-width:600px){.hdr h1{font-size:1.5rem}.fund-grid{grid-template-columns:1fr}.txn-wrap{overflow-x:auto}}
+</style>
+</head>
+<body>
 
-      // Convert the candlestick data for use with a line series
-      const lineData = candleStickData.map((datapoint) => ({
-        time: datapoint.time,
-        value: (datapoint.close + datapoint.open) / 2,
-      }));
+<div id="loader">
+  <div class="spinner"></div>
+  <p>Loading portfolio…</p>
+</div>
 
-      // Add an area series to the chart,
-      // Adding this before we add the candlestick chart
-      // so that it will appear beneath the candlesticks
-      const areaSeries = chart.addSeries(LightweightCharts.AreaSeries, {
-        lastValueVisible: false, // hide the last value marker for this series
-        crosshairMarkerVisible: false, // hide the crosshair marker for this series
-        lineColor: "transparent", // hide the line
-        topColor: "rgba(56, 33, 110,0.6)",
-        bottomColor: "rgba(56, 33, 110, 0.1)",
-      });
-      // Set the data for the Area Series
-      areaSeries.setData(lineData);
+<div class="wrap">
 
-      // Create the Main Series (Candlesticks)
-      const mainSeries = chart.addSeries(LightweightCharts.CandlestickSeries);
-      // Set the data for the Main Series
-      mainSeries.setData(candleStickData);
+  <div class="hdr">
+    <div class="hdr-top">
+      <div>
+        <h1>My Portfolio<br><span>NAV Dashboard</span></h1>
+        <div class="hdr-meta">Updated daily via <b>GitHub Actions</b> · NAV from AMFI</div>
+      </div>
+      <div class="badge-auto"><div class="dot"></div><span id="update-time">Auto-updated</span></div>
+    </div>
+    <div class="goal-bar">
+      <div class="gi"><div class="gl">Total Invested</div><div class="gv col-blue"  id="hdr-inv">—</div></div>
+      <div class="gi"><div class="gl">Portfolio Value</div><div class="gv col-green" id="hdr-val">—</div></div>
+      <div class="gi"><div class="gl">Total Gain / Loss</div><div class="gv" id="hdr-gain">—</div></div>
+      <div class="gi"><div class="gl">XIRR (approx)</div><div class="gv col-gold"  id="hdr-xirr">—</div></div>
+      <div class="gi"><div class="gl">NAV as of</div><div class="gv col-muted"     id="hdr-navdate">—</div></div>
+    </div>
+  </div>
 
-      // Changing the Candlestick colors
-      mainSeries.applyOptions({
-        wickUpColor: "rgb(54, 116, 217)",
-        upColor: "rgb(54, 116, 217)",
-        wickDownColor: "rgb(225, 50, 85)",
-        downColor: "rgb(225, 50, 85)",
-        borderVisible: false,
-      });
+  <!-- KPI Cards -->
+  <div class="cards">
+    <div class="card"><div class="cl">Total Invested</div><div class="cv b" id="kpi-inv">—</div><div class="cs" id="kpi-funds">—</div></div>
+    <div class="card"><div class="cl">Live Value</div><div class="cv g" id="kpi-val">—</div><div class="cs">Latest NAV</div></div>
+    <div class="card"><div class="cl">Gain / Loss</div><div class="cv" id="kpi-gain">—</div><div class="cs" id="kpi-pct">—</div></div>
+    <div class="card"><div class="cl">Transactions</div><div class="cv go" id="kpi-count">—</div><div class="cs" id="kpi-funds2">— unique funds</div></div>
+  </div>
 
-      // Adjust the options for the priceScale of the mainSeries
-      mainSeries.priceScale().applyOptions({
-        autoScale: false, // disables auto scaling based on visible content
-        scaleMargins: {
-          top: 0.1,
-          bottom: 0.2,
-        },
-      });
+  <!-- Bird's Eye View -->
+  <div class="sec">Holdings — Bird's Eye View</div>
+  <div class="fund-grid" id="fund-grid"></div>
 
-      // Adding a window resize event handler to resize the chart when
-      // the window size changes.
-      // Note: for more advanced examples (when the chart doesn't fill the entire window)
-      // you may need to use ResizeObserver -> https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
-      window.addEventListener("resize", () => {
-        chart.resize(window.innerWidth, window.innerHeight);
-      });
-    </script>
-  </body>
+  <!-- Transactions -->
+  <div class="sec">Transaction History</div>
+  <div class="txn-wrap" id="txn-table"></div>
+
+  <!-- Projection -->
+  <div class="sec">Wealth Projection</div>
+  <div class="proj-box">
+    <h3>Corpus Estimator</h3>
+    <div class="slider-row">
+      <label>Expected Annual Return:</label>
+      <input type="range" id="rate" min="6" max="18" value="10" step="0.5" oninput="calcProj()">
+      <span id="rate-val">10%</span>
+    </div>
+    <div class="proj-grid">
+      <div class="pi"><div class="pl">Current Value</div><div class="pv" id="p-corpus">—</div></div>
+      <div class="pi"><div class="pl">Monthly SIP</div><div class="pv" id="p-sip">—</div></div>
+      <div class="pi"><div class="pl">Growth Earned</div><div class="pv" id="p-growth">—</div></div>
+      <div class="pi hi"><div class="pl">🎯 Future Value</div><div class="pv" id="p-total">—</div></div>
+    </div>
+    <div class="prog-labels"><span id="prog-l">Now: —</span><span id="prog-r">Target: —</span></div>
+    <div class="prog-track"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+    <div class="prog-pct" id="prog-pct">—</div>
+  </div>
+
+</div>
+
+<script>
+// ── Config ────────────────────────────────────────────────
+// Path to your portfolio.json (relative to this HTML file)
+const DATA_URL  = './data/portfolio.json';
+const GOAL      = 2000000;   // ← your target corpus in ₹
+const SIP       = 70000;     // ← your monthly SIP in ₹
+const TARGET_DATE = new Date(2027, 11, 6);  // Dec 6 2027
+
+// ── Helpers ───────────────────────────────────────────────
+const inr  = v => '₹' + Math.round(v).toLocaleString('en-IN');
+const inrL = v => v >= 1e5 ? '₹' + (v/1e5).toFixed(2)+'L' : inr(v);
+const mo   = (a,b) => (b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMonth());
+
+// ── Boot ──────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch(DATA_URL + '?t=' + Date.now()); // bust cache
+    if (!res.ok) throw new Error(`HTTP ${res.status} — portfolio.json not found`);
+    const data = await res.json();
+    render(data);
+  } catch (err) {
+    document.getElementById('loader').classList.add('hide');
+    document.querySelector('.wrap').insertAdjacentHTML('afterbegin',
+      `<div class="err-box">
+        ⚠ Could not load portfolio data.<br><br>
+        Make sure <code>data/portfolio.json</code> exists in your repo.<br>
+        Run the GitHub Action once manually, or run <code>python scripts/fetch_nav.py</code> locally.<br><br>
+        <small>${err.message}</small>
+      </div>`
+    );
+  }
+});
+
+// ── Render ────────────────────────────────────────────────
+let _liveCorpus = 0;
+
+function render(data) {
+  const s = data.summary;
+  const funds = data.holdings || [];
+  const txns  = data.transactions || [];
+
+  // Update time badge
+  const d = new Date(data.generatedAt);
+  document.getElementById('update-time').textContent =
+    'Updated ' + d.toLocaleDateString('en-IN', {day:'numeric',month:'short'}) +
+    ' · ' + d.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
+
+  // Header bar
+  document.getElementById('hdr-inv').textContent  = inr(s.totalInvested);
+  document.getElementById('hdr-val').textContent  = inr(s.totalValue);
+  const g = s.totalGain;
+  document.getElementById('hdr-gain').textContent = (g>=0?'+':'−') + inr(Math.abs(g));
+  document.getElementById('hdr-gain').className   = 'gv ' + (g>=0?'col-green':'col-red');
+  document.getElementById('hdr-xirr').textContent = s.xirr ? s.xirr + '% p.a.' : '—';
+
+  // NAV date — take from first holding that has one
+  const navDate = funds.find(f=>f.navDate)?.navDate || '—';
+  document.getElementById('hdr-navdate').textContent = navDate;
+
+  // KPIs
+  document.getElementById('kpi-inv').textContent   = inr(s.totalInvested);
+  document.getElementById('kpi-funds').textContent  = s.fundCount + ' fund' + (s.fundCount!==1?'s':'');
+  document.getElementById('kpi-val').textContent    = inr(s.totalValue);
+  document.getElementById('kpi-gain').textContent   = (g>=0?'+':'−') + inr(Math.abs(g));
+  document.getElementById('kpi-gain').className     = 'cv ' + (g>=0?'g':'r');
+  document.getElementById('kpi-pct').textContent    = (s.gainPct>=0?'+':'') + s.gainPct + '%';
+  document.getElementById('kpi-pct').className      = 'cs ' + (s.gainPct>=0?'g':'r');
+  document.getElementById('kpi-count').textContent  = s.txnCount;
+  document.getElementById('kpi-funds2').textContent = s.fundCount + ' unique funds';
+
+  // Fund cards
+  renderFundGrid(funds, s.totalInvested);
+
+  // Transaction table (show first 15, then "show more")
+  renderTxnTable(txns);
+
+  // Projection
+  _liveCorpus = s.totalValue;
+  calcProj();
+
+  document.getElementById('loader').classList.add('hide');
+}
+
+function renderFundGrid(funds, totalInv) {
+  const grid = document.getElementById('fund-grid');
+  grid.innerHTML = '';
+  funds.forEach((f, i) => {
+    const color  = f.color || '#6b7385';
+    const gainCls = f.gain >= 0 ? 'g' : 'r';
+    const navStr  = f.liveNAV
+      ? `<span class="nav-pill ok">NAV ₹${f.liveNAV.toFixed(4)} · ${f.navDate||''}</span>`
+      : `<span class="nav-pill no">NAV unavailable</span>`;
+
+    const card = document.createElement('div');
+    card.className = 'fund-card';
+    card.style.cssText = `animation-delay:${i*0.1}s; border-color:${color}33`;
+    card.innerHTML = `
+      <div class="fc-head">
+        <div class="ficon" style="background:linear-gradient(135deg,${color}cc,${color})">${f.short||'MF'}</div>
+        <div class="fc-title">
+          <div class="fname">${f.fundName}</div>
+          <div class="fhouse">${f.fundHouse}</div>
+          ${navStr}
+        </div>
+      </div>
+      <div class="fc-stats">
+        <div class="fc-stat">
+          <div class="sl">Invested</div>
+          <div class="sv b">${inr(f.invested)}</div>
+        </div>
+        <div class="fc-stat">
+          <div class="sl">Live Value</div>
+          <div class="sv g">${inr(f.liveValue)}</div>
+        </div>
+        <div class="fc-stat">
+          <div class="sl">Units</div>
+          <div class="sv">${f.units.toFixed(4)}</div>
+        </div>
+        <div class="fc-stat">
+          <div class="sl">Avg NAV</div>
+          <div class="sv">₹${f.avgNAV.toFixed(4)}</div>
+        </div>
+        <div class="fc-stat full">
+          <div class="sl">Gain / Loss</div>
+          <div class="sv ${gainCls}">
+            ${f.gain>=0?'+':'−'}${inr(Math.abs(f.gain))} &nbsp;(${f.gainPct}%)
+          </div>
+        </div>
+      </div>
+      <div class="fc-bar">
+        <div class="fc-bar-fill" style="width:${f.portfolioPct}%;background:${color}"></div>
+      </div>
+      <div class="fc-pct">${f.portfolioPct}% of portfolio · ${allTransactionsForFund(f.fundName)} transactions</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Count txns for a fund (stored globally after first render)
+let _txns = [];
+function allTransactionsForFund(name) {
+  return _txns.filter(t => t.fundName === name).length;
+}
+
+function renderTxnTable(txns) {
+  _txns = txns;
+  const wrap = document.getElementById('txn-table');
+  const PAGE = 15;
+  let showing = PAGE;
+
+  function buildTable() {
+    const slice = txns.slice(0, showing);
+    const rows = slice.map(t => {
+      const color = getFundColor(t.fundName);
+      return `<tr>
+        <td>
+          <span class="fund-dot" style="background:${color}"></span>
+          <span class="txn-name">${t.fundName.length>44?t.fundName.slice(0,44)+'…':t.fundName}</span>
+          <div class="txn-sub">Folio ${t.folio}</div>
+        </td>
+        <td style="color:var(--muted)">${t.date}</td>
+        <td class="b">${inr(t.invested)}</td>
+        <td>${t.units.toFixed(4)}</td>
+        <td>₹${t.historicalNAV.toFixed(4)}</td>
+        <td>${inr(t.historicalValue)}</td>
+      </tr>`;
+    }).join('');
+
+    const moreRow = showing < txns.length
+      ? `<tr><td colspan="6" class="txn-more" id="show-more">
+          ↓ Show more (${txns.length - showing} remaining)
+         </td></tr>`
+      : '';
+
+    wrap.innerHTML = `<table>
+      <thead><tr>
+        <th>Fund</th><th>Date</th><th>Invested</th><th>Units</th><th>NAV at Buy</th><th>Value at Buy</th>
+      </tr></thead>
+      <tbody>${rows}${moreRow}</tbody>
+    </table>`;
+
+    const btn = document.getElementById('show-more');
+    if (btn) btn.addEventListener('click', () => { showing = Math.min(showing+PAGE, txns.length); buildTable(); });
+  }
+  buildTable();
+}
+
+function getFundColor(name) {
+  const n = name.toLowerCase();
+  if (n.includes('kotak')) return '#3d8bff';
+  if (n.includes('multi')) return '#fbbf24';
+  if (n.includes('equity') || n.includes('saving')) return '#34d399';
+  return '#6b7385';
+}
+
+// ── Projection ────────────────────────────────────────────
+function calcProj() {
+  const rate = parseFloat(document.getElementById('rate').value);
+  document.getElementById('rate-val').textContent = rate + '%';
+  const r = rate / 100 / 12;
+  const months = mo(new Date(), TARGET_DATE);
+  const c = _liveCorpus || 0;
+  const fvC = c * Math.pow(1+r, months);
+  const fvS = SIP * ((Math.pow(1+r, months) - 1) / r) * (1+r);
+  const tot = fvC + fvS;
+  const grow = tot - c - SIP * months;
+  const pct = Math.min((tot / GOAL) * 100, 100);
+
+  document.getElementById('p-corpus').textContent = inrL(c);
+  document.getElementById('p-sip').textContent    = inrL(SIP) + '/mo';
+  document.getElementById('p-growth').textContent = inrL(grow);
+  document.getElementById('p-total').textContent  = inrL(tot);
+  document.getElementById('prog-l').textContent   = 'Now: ' + inrL(c);
+  document.getElementById('prog-r').textContent   = 'Target: ' + inrL(GOAL);
+  document.getElementById('prog').style.width     = pct + '%';
+  document.getElementById('prog-pct').textContent = pct.toFixed(1) + '% of ' + inrL(GOAL);
+}
+</script>
+</body>
 </html>
