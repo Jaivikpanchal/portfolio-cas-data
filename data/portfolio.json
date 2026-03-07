@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-03-07T04:26:10.983158",
+  "generatedAt": "2026-03-07T05:23:01.318680",
   "summary": {
-    "totalInvested": 214994.5,
-    "totalValue": 214460.83,
-    "totalGain": -533.67,
-    "gainPct": -0.25,
-    "xirr": -1.5,
+    "totalInvested": 324989.0,
+    "totalValue": 325195.07,
+    "totalGain": 206.07,
+    "gainPct": 0.06,
+    "xirr": 0.39,
     "fundCount": 3,
-    "txnCount": 6
+    "txnCount": 8
   },
   "holdings": [
     {
@@ -18,13 +18,13 @@
       "isin": "INF174K01LC6",
       "short": "KA",
       "color": "#3d8bff",
-      "units": 2653.5443999999998,
-      "invested": 109994.5,
+      "units": 5307.0887999999995,
+      "invested": 219989.0,
       "liveNAV": 41.8399,
-      "liveValue": 111024.03,
+      "liveValue": 222048.06,
       "navDate": "06-03-2026",
-      "portfolioPct": 51.2,
-      "gain": 1029.53,
+      "portfolioPct": 67.7,
+      "gain": 2059.06,
       "gainPct": 0.94,
       "avgNAV": 41.4519
     },
@@ -38,12 +38,12 @@
       "color": "#fbbf24",
       "units": 54.986000000000004,
       "invested": 50000.0,
-      "liveNAV": 894.4656,
-      "liveValue": 49183.09,
-      "navDate": "05-03-2026",
-      "portfolioPct": 23.3,
-      "gain": -816.91,
-      "gainPct": -1.63,
+      "liveNAV": 889.1954,
+      "liveValue": 48893.3,
+      "navDate": "06-03-2026",
+      "portfolioPct": 15.4,
+      "gain": -1106.7,
+      "gainPct": -2.21,
       "avgNAV": 909.3224
     },
     {
@@ -59,13 +59,33 @@
       "liveNAV": 24.74,
       "liveValue": 54253.71,
       "navDate": "06-03-2026",
-      "portfolioPct": 25.6,
+      "portfolioPct": 16.9,
       "gain": -746.29,
       "gainPct": -1.36,
       "avgNAV": 25.0803
     }
   ],
   "transactions": [
+    {
+      "date": "2026-03-07",
+      "folio": "18499837",
+      "fundHouse": "Kotak",
+      "fundName": "Kotak Arbitrage Fund - Direct Plan - Growth",
+      "invested": 34998.25,
+      "units": 840.5343,
+      "historicalNAV": 41.6381,
+      "historicalValue": 34998.25
+    },
+    {
+      "date": "2026-03-07",
+      "folio": "18239116",
+      "fundHouse": "Kotak",
+      "fundName": "Kotak Arbitrage Fund - Direct Plan - Growth",
+      "invested": 74996.25,
+      "units": 1813.0101,
+      "historicalNAV": 41.3656,
+      "historicalValue": 74996.25
+    },
     {
       "date": "2026-02-06",
       "folio": "18499837",
