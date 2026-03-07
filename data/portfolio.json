@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-03-07T13:02:31.043376",
+  "generatedAt": "2026-03-07T13:56:02.107587",
   "summary": {
-    "totalInvested": 324989.0,
-    "totalValue": 325195.07,
-    "totalGain": 206.07,
-    "gainPct": 0.06,
-    "xirr": 0.39,
+    "totalInvested": 359987.25,
+    "totalValue": 360362.95,
+    "totalGain": 375.7,
+    "gainPct": 0.1,
+    "xirr": 0.64,
     "fundCount": 3,
-    "txnCount": 8
+    "txnCount": 9
   },
   "holdings": [
     {
@@ -18,15 +18,15 @@
       "isin": "INF174K01LC6",
       "short": "KA",
       "color": "#3d8bff",
-      "units": 5307.0887999999995,
-      "invested": 219989.0,
+      "units": 6147.623100000001,
+      "invested": 254987.25,
       "liveNAV": 41.8399,
-      "liveValue": 222048.06,
+      "liveValue": 257215.94,
       "navDate": "06-03-2026",
-      "portfolioPct": 67.7,
-      "gain": 2059.06,
-      "gainPct": 0.94,
-      "avgNAV": 41.4519
+      "portfolioPct": 70.8,
+      "gain": 2228.69,
+      "gainPct": 0.87,
+      "avgNAV": 41.4774
     },
     {
       "fundName": "ICICI Prudential Multi-Asset Fund - Direct Plan - Growth",
@@ -41,7 +41,7 @@
       "liveNAV": 889.1954,
       "liveValue": 48893.3,
       "navDate": "06-03-2026",
-      "portfolioPct": 15.4,
+      "portfolioPct": 13.9,
       "gain": -1106.7,
       "gainPct": -2.21,
       "avgNAV": 909.3224
@@ -59,13 +59,23 @@
       "liveNAV": 24.74,
       "liveValue": 54253.71,
       "navDate": "06-03-2026",
-      "portfolioPct": 16.9,
+      "portfolioPct": 15.3,
       "gain": -746.29,
       "gainPct": -1.36,
       "avgNAV": 25.0803
     }
   ],
   "transactions": [
+    {
+      "date": "2026-03-07",
+      "folio": "18499837",
+      "fundHouse": "Kotak",
+      "fundName": "Kotak Arbitrage Fund - Direct Plan - Growth",
+      "invested": 34998.25,
+      "units": 840.5343,
+      "historicalNAV": 41.6381,
+      "historicalValue": 34998.25
+    },
     {
       "date": "2026-03-07",
       "folio": "18499837",
