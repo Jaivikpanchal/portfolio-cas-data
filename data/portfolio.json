@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-04-11T23:42:46.267681",
+  "generatedAt": "2026-04-12T03:32:10.096066",
   "summary": {
     "totalInvested": 359987.25,
     "totalValue": 361589.35,
     "totalGain": 1602.1,
     "gainPct": 0.45,
-    "xirr": 1.72,
+    "xirr": 1.7,
     "fundCount": 3,
     "txnCount": 9
   },
