@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-20T23:32:45.299643",
+  "generatedAt": "2026-07-21T03:26:32.437996",
   "summary": {
     "totalInvested": 359987.25,
-    "totalValue": 359504.38,
-    "totalGain": -482.87,
-    "gainPct": -0.13,
-    "xirr": -0.25,
+    "totalValue": 367755.76,
+    "totalGain": 7768.51,
+    "gainPct": 2.16,
+    "xirr": 4.06,
     "fundCount": 3,
     "txnCount": 9
   },
@@ -20,12 +20,12 @@
       "color": "#3d8bff",
       "units": 6147.623100000001,
       "invested": 254987.25,
-      "liveNAV": null,
-      "liveValue": 254987.25,
-      "navDate": null,
+      "liveNAV": 42.8266,
+      "liveValue": 263281.8,
+      "navDate": "20-07-2026",
       "portfolioPct": 70.8,
-      "gain": 0.0,
-      "gainPct": 0.0,
+      "gain": 8294.55,
+      "gainPct": 3.25,
       "avgNAV": 41.4774
     },
     {
@@ -56,12 +56,12 @@
       "color": "#34d399",
       "units": 2192.955,
       "invested": 55000.0,
-      "liveNAV": 25.1,
-      "liveValue": 55043.17,
-      "navDate": "20-07-2026",
+      "liveNAV": null,
+      "liveValue": 55000.0,
+      "navDate": null,
       "portfolioPct": 15.3,
-      "gain": 43.17,
-      "gainPct": 0.08,
+      "gain": 0.0,
+      "gainPct": 0.0,
       "avgNAV": 25.0803
     }
   ],
